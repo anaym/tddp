@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TagsCloudVisualization
+namespace TagsCloudVisualization.Geometry
 {
     public class Size : IEquatable<Size>, IComparable<Size>
     {
