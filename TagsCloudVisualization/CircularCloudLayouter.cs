@@ -10,7 +10,7 @@ namespace TagsCloudVisualization
     public class CircularCloudLayouter
     {
         public readonly Vector Centre;
-        private List<Rectangle> rectangles;
+        public List<Rectangle> rectangles;
 
         public CircularCloudLayouter(Vector centre)
         {
@@ -29,8 +29,11 @@ namespace TagsCloudVisualization
             {
                 throw new ArgumentException("Rectangles must be ordered by desending sizes");
             }
-
-            var rect = new Rectangle(rectangleSize, Centre);
+            var rect = new Rectangle(rectangleSize, Centre); ;
+            if (rectangles.Any())
+            {
+                rect.LeftTop = rectangles.Last().RightBottom;
+            }
             rectangles.Add(rect);
             return rect;
         }

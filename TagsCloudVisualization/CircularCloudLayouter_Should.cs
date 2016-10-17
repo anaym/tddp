@@ -30,6 +30,22 @@ namespace TagsCloudVisualization
             return buffer;
         }
 
+        private Size GetLayoutRectangle()
+        {
+            if (!layouter.rectangles.Any())
+                return new Size(0, 0);
+            var rightBottom = new Vector(layouter.GetRectangles().Min(r => r.Centre.X), layouter.GetRectangles().Min(r => r.Centre.Y));
+            var leftTop = new Vector(layouter.GetRectangles().Max(r => r.Centre.X), layouter.GetRectangles().Max(r => r.Centre.Y));
+            return new Size(leftTop.X - rightBottom.X, leftTop.Y - rightBottom.Y);
+        }
+
+        private int GetLayoutRectanglesSquare()
+        {
+            if (!layouter.rectangles.Any())
+                return 0;
+            return layouter.GetRectangles().Sum(r => r.Size.Width*r.Size.Height);
+        }
+
         [TestCase(0, 0, TestName = "Begin of coordinates")]
         [TestCase(100500, 10, TestName = "Another point")]
         public void PutFirstRectangleToLayoutCentre(int cx, int cy)
@@ -79,9 +95,16 @@ namespace TagsCloudVisualization
             PutAnyRectangles(10);
             layouter
                 .GetRectangles()
-                .All(r => layouter.GetRectangles().All(o => !o.IsIntersected(r)))
+                .All(r => layouter.GetRectangles().All(o => !o.IsIntersected(r, false)))
                 .Should().BeTrue();
         }
-        //
+
+        [Test]
+        public void TestEfficency()
+        {
+            PutAnyRectangles(10);
+            var rect = GetLayoutRectangle();
+            Math.Abs(GetLayoutRectanglesSquare() - rect.Width*rect.Height).Should().BeLessThan((int)(0.8 * rect.Width * rect.Height));
+        }
     }
 }

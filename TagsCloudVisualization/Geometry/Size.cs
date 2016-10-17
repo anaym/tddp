@@ -23,5 +23,7 @@ namespace TagsCloudVisualization.Geometry
         public bool Equals(Size other) => other != null && (Width == other.Width && Height == other.Height);
         public override int GetHashCode() => Width ^ Height;
         public override bool Equals(object obj) => (obj as Size)?.Equals(this) ?? false;
+        public override string ToString() => $"({Width}, {Height})";
+
     }
 }
