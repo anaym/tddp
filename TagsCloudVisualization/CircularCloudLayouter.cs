@@ -32,7 +32,7 @@ namespace TagsCloudVisualization
             var rect = new Rectangle(rectangleSize, Centre); ;
             if (rectangles.Any())
             {
-                rect.LeftTop = rectangles.Last().RightBottom;
+                rect.RightTop = rectangles.Last().LeftBottom;
             }
             rectangles.Add(rect);
             return rect;

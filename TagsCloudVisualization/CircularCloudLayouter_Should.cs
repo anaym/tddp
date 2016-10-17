@@ -30,16 +30,12 @@ namespace TagsCloudVisualization
             return buffer;
         }
 
-        private Size GetLayoutRectangle()
+        private int GetOutRectangleSquare()
         {
-            if (!layouter.rectangles.Any())
-                return new Size(0, 0);
-            var rightBottom = new Vector(layouter.GetRectangles().Min(r => r.Centre.X), layouter.GetRectangles().Min(r => r.Centre.Y));
-            var leftTop = new Vector(layouter.GetRectangles().Max(r => r.Centre.X), layouter.GetRectangles().Max(r => r.Centre.Y));
-            return new Size(leftTop.X - rightBottom.X, leftTop.Y - rightBottom.Y);
+            return layouter.GetRectangles().OutRectangle().Size.Square;
         }
 
-        private int GetLayoutRectanglesSquare()
+        private int GetSumPiecesSquare()
         {
             if (!layouter.rectangles.Any())
                 return 0;
@@ -103,8 +99,7 @@ namespace TagsCloudVisualization
         public void TestEfficency()
         {
             PutAnyRectangles(10);
-            var rect = GetLayoutRectangle();
-            Math.Abs(GetLayoutRectanglesSquare() - rect.Width*rect.Height).Should().BeLessThan((int)(0.8 * rect.Width * rect.Height));
+            Math.Abs(GetSumPiecesSquare() - GetOutRectangleSquare()).Should().BeLessThan((int)(0.8 * GetOutRectangleSquare()));
         }
     }
 }

@@ -7,11 +7,15 @@ namespace TagsCloudVisualization.Geometry
         public readonly int Width;
         public readonly int Height;
 
+        public static Size Empty => new Size(0, 0);
+
         public Size(int width, int height)
         {
             Width = width;
             Height = height;
         }
+
+        public int Square => Width*Height;
 
         public int CompareTo(Size other)
         {

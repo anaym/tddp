@@ -8,10 +8,11 @@ namespace TagsCloudVisualization.Geometry
         public readonly Size Size;
         public Vector Centre { get; set; }
 
-        public Rectangle(Vector leftTop, Vector rightBottom)
-            : this(new Size(Math.Abs(leftTop.X - rightBottom.X), Math.Abs(leftTop.Y - rightBottom.Y)), leftTop)
+        public static Rectangle FromRightTop(Vector rightTop, Size size) => new Rectangle(rightTop, rightTop.Add(size.ToVector()));
+
+        public Rectangle(Vector rightTop, Vector leftBottom) : this(rightTop.ToSize(leftBottom), rightTop)
         {
-            LeftTop = leftTop;
+            RightTop = rightTop;
         }
 
         public Rectangle(Size size, Vector centre)
@@ -27,7 +28,7 @@ namespace TagsCloudVisualization.Geometry
         public Rectangle(Size size) : this(size, new Vector(0, 0))
         { }
 
-        public Vector LeftTop
+        public Vector RightTop
         {
             get
             {
@@ -38,7 +39,7 @@ namespace TagsCloudVisualization.Geometry
                 Centre = new Vector(value.X - Size.Width/2, value.Y - Size.Height/2);
             }
         }
-        public Vector RightBottom
+        public Vector LeftBottom
         {
             get
             {
@@ -61,14 +62,14 @@ namespace TagsCloudVisualization.Geometry
 
         private bool IsIntersectedNonCommutative(Rectangle other, bool includeContur = true)
         {
-            var xIntersected = other.LeftTop.X.IsInRange(LeftTop.X, RightBottom.X, includeContur) || other.RightBottom.X.IsInRange(LeftTop.X, RightBottom.X, includeContur);
-            var yIntersected = other.LeftTop.Y.IsInRange(LeftTop.Y, RightBottom.Y, includeContur) || other.RightBottom.Y.IsInRange(LeftTop.Y, RightBottom.Y, includeContur);
+            var xIntersected = other.RightTop.X.IsInRange(RightTop.X, LeftBottom.X, includeContur) || other.LeftBottom.X.IsInRange(RightTop.X, LeftBottom.X, includeContur);
+            var yIntersected = other.RightTop.Y.IsInRange(RightTop.Y, LeftBottom.Y, includeContur) || other.LeftBottom.Y.IsInRange(RightTop.Y, LeftBottom.Y, includeContur);
             return xIntersected && yIntersected;
         }
 
         public bool Equals(Rectangle other) => other != null && Size.Equals(other.Size) && Centre.Equals(other.Centre);
         public override int GetHashCode() => Size.GetHashCode();
         public override bool Equals(object obj) => Equals(obj as Rectangle);
-        public override string ToString() => $"{{{Size} on {Centre}: LT={LeftTop}, RB={RightBottom}}}";
+        public override string ToString() => $"{{{Size} on {Centre}: LT={RightTop}, RB={LeftBottom}}}";
     }
 }
