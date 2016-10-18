@@ -12,16 +12,21 @@ namespace TagsCloudVisualization
         private readonly List<Rectangle> rectangles;
         private readonly HashSet<Vector> spots;
         private Vector averageVector;
+        public readonly Vector Extension;
 
-        public CircularCloudLayouter(Vector centre)
+        public CircularCloudLayouter(Vector centre, Vector extension)
         {
             Centre = centre;
+            Extension = extension;
             rectangles = new List<Rectangle>();
             averageVector = Vector.Zero;
             spots = new HashSet<Vector>();
         }
 
-        public CircularCloudLayouter() : this(new Vector(0, 0))
+        public CircularCloudLayouter(Vector centre) : this(centre, new Vector(2, 1))
+        { }
+
+        public CircularCloudLayouter() : this(new Vector(0, 0), new Vector(2, 1))
         { }
 
         public Rectangle PutNextRectangle(Size rectangleSize)
@@ -34,6 +39,8 @@ namespace TagsCloudVisualization
             {
                 throw new ArgumentException("Rectangles must be ordered by desending sizes");
             }
+            if (Extension.X == 0 || Extension.Y == 0)
+                throw new DivideByZeroException("Bad argument: extension. Must be non zero");
             var rect = Rectangle.FromCentre(Centre, rectangleSize);
             if (rectangles.Any())
             {
@@ -76,7 +83,8 @@ namespace TagsCloudVisualization
 
         private int Aberration(Rectangle rect)
         {
-            return rect.Centre.Sub(Centre).Add(averageVector).Norm;
+            var newVector = rect.Centre.Sub(Centre).Add(averageVector);
+            return Math.Abs(newVector.X/Extension.X) + Math.Abs(newVector.Y/Extension.Y);
         }
 
         private bool IsIntersected(Rectangle testable)
