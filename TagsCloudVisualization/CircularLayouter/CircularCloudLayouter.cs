@@ -11,12 +11,12 @@ namespace TagsCloudVisualization.CircularLayouter
     {
         public readonly Vector Centre;
         public List<Rectangle> rectangles;
-        private List<Vector> insertSpots;
+        private HashSet<Vector> insertSpots;
 
         public CircularCloudLayouter(Vector centre)
         {
             this.Centre = centre;
-            insertSpots = new List<Vector>();
+            insertSpots = new HashSet<Vector>();
             rectangles = new List<Rectangle>();
         }
 
@@ -41,24 +41,20 @@ namespace TagsCloudVisualization.CircularLayouter
                 }
                 rect = lb.Item2 < rt.Item2 ? lb.Item1 : rt.Item1;
             }
-            try
-            {
-                var i = rect.IsIntersected(rectangles[3], false);
-            }
-            catch (Exception)
-            { }
             rectangles.Add(rect);
-            insertSpots.AddRange(new []{ rect.LeftBottom, rect.RightUp, rect.LeftUp, rect.RightBottom });
+            insertSpots.Add(rect.LeftBottom);
+            insertSpots.Add(rect.RightUp);
+            insertSpots.Add(rect.LeftUp);
+            insertSpots.Add(rect.RightBottom);
             return rect;
         }
 
         private Tuple<Rectangle, int> TryInsertLeftBottom(Size size)
         {
-            var rects = insertSpots
+            var rect = insertSpots
                 .Select(w => Rectangle.FromLeftBottom(w, size))
-                .Where(r => !IsIntersected(r)).ToList();
-
-            var rect = rects.MinOrDefault(r => r.Centre.DistanceTo(Centre));
+                .Where(r => !IsIntersected(r)).ToList()
+                .MinOrDefault(r => r.Centre.DistanceTo(Centre));
             if (rect == null)
                 return null;
             return Tuple.Create(rect, rect.Centre.DistanceTo(Centre));

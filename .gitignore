@@ -12,6 +12,8 @@
 
 out.bmp
 out.log
+out.jpg
+out.png
 
 # Build results
 [Dd]ebug/
