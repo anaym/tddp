@@ -11,7 +11,7 @@ namespace TagsCloudVisualization.Geometry
             var minX = int.MaxValue;
             var maxX = int.MinValue;
             var minY = int.MaxValue;
-            var maxY = int.MaxValue;
+            var maxY = int.MinValue;
             var exist = false;
             foreach (var rectangle in rectangles)
             {
@@ -19,8 +19,8 @@ namespace TagsCloudVisualization.Geometry
                 minX = Math.Min(rectangle.LeftBottom.X, minX);
                 minY = Math.Min(rectangle.LeftBottom.Y, minY);
 
-                maxX = Math.Max(rectangle.RightTop.X, maxX);
-                maxY = Math.Max(rectangle.RightTop.Y, maxY);
+                maxX = Math.Max(rectangle.RightUp.X, maxX);
+                maxY = Math.Max(rectangle.RightUp.Y, maxY);
             }
             return !exist ? null : new Rectangle(new Vector(maxX, maxY), new Vector(minX, minY));
         }
@@ -30,13 +30,13 @@ namespace TagsCloudVisualization.Geometry
             switch (border)
             {
                 case Direction.Up:
-                    return rect.RightTop.Y;
+                    return rect.RightUp.Y;
                 case Direction.Down:
                     return rect.LeftBottom.Y;
                 case Direction.Left:
                     return rect.LeftBottom.X;
                 case Direction.Right:
-                    return rect.RightTop.X;
+                    return rect.RightUp.X;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(border), border, null);
             }
@@ -47,7 +47,7 @@ namespace TagsCloudVisualization.Geometry
             switch (border)
             {
                 case Direction.Up:
-                    rect.RightTop = new Vector(rect.RightTop.X, value);
+                    rect.RightUp = new Vector(rect.RightUp.X, value);
                     break;
                 case Direction.Down:
                     rect.LeftBottom = new Vector(rect.LeftBottom.X, value);
@@ -56,7 +56,7 @@ namespace TagsCloudVisualization.Geometry
                     rect.LeftBottom = new Vector(value, rect.LeftBottom.Y);
                     break;
                 case Direction.Right:
-                    rect.RightTop = new Vector(value, rect.RightTop.Y);
+                    rect.RightUp = new Vector(value, rect.RightUp.Y);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(border), border, null);

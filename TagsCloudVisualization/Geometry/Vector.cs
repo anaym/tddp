@@ -17,13 +17,16 @@ namespace TagsCloudVisualization
             Y = y;
         }
 
+        public int Norm => Math.Abs(X) + Math.Abs(Y);
+        public int DistanceTo(Vector other) => Sub(other).Norm;
+
         public Vector Add(Vector other)
         {
             return new Vector(X + other.X, Y + other.Y);
         }
+        public Vector Sub(Vector other) => Add(other.Mul(-1));
         public Vector Mul(int k) => new Vector(k*X, k*Y);
         public int ScalarMul(Vector other) => other.X*X + other.Y*Y;
-
 
         public bool Equals(Vector other) => other != null && (other.X == X && other.Y == Y);
         public override int GetHashCode() => X ^ Y;

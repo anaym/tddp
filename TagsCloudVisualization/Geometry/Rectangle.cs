@@ -3,16 +3,17 @@ using TagsCloudVisualization.Extensions;
 
 namespace TagsCloudVisualization.Geometry
 {
-    public class Rectangle : IEquatable<Rectangle>
+    public class Rectangle
     {
         public readonly Size Size;
         public Vector Centre { get; set; }
 
-        public static Rectangle FromRightTop(Vector rightTop, Size size) => new Rectangle(rightTop, rightTop.Add(size.ToVector()));
+        public static Rectangle FromRightTop(Vector rightTop, Size size) => new Rectangle(rightTop, rightTop.Sub(size.ToVector()));
+        public static Rectangle FromLeftBottom(Vector leftBottom, Size size) => new Rectangle(leftBottom.Add(size.ToVector()), leftBottom);
 
-        public Rectangle(Vector rightTop, Vector leftBottom) : this(rightTop.ToSize(leftBottom), rightTop)
+        public Rectangle(Vector rightUp, Vector leftBottom) : this(rightUp.ToSize(leftBottom), rightUp)
         {
-            RightTop = rightTop;
+            RightUp = rightUp;
         }
 
         public Rectangle(Size size, Vector centre)
@@ -28,7 +29,7 @@ namespace TagsCloudVisualization.Geometry
         public Rectangle(Size size) : this(size, new Vector(0, 0))
         { }
 
-        public Vector RightTop
+        public Vector RightUp
         {
             get
             {
@@ -54,22 +55,41 @@ namespace TagsCloudVisualization.Geometry
                 Centre = new Vector(value.X + Size.Width / 2 + wa, value.Y + Size.Height / 2 + ha);
             }
         }
+        public Vector RightBottom => new Vector(Right, Down);
+        public Vector LeftUp => new Vector(Left, Up);
+
+        public int Up => Centre.Y + Size.Height/2;
+        public int Right => Centre.X + Size.Width/2;
+        public int Down => Centre.Y - Size.Height/2 - Size.Height%2;
+        public int Left => Centre.X - Size.Width/2 - Size.Width%2;
 
         public bool IsIntersected(Rectangle other, bool includeContur=true)
         {
+            var f = new Segment(Left, Right).IsIntersected(new Segment(other.Left, other.Right), includeContur) &&
+                new Segment(Down, Up).IsIntersected(new Segment(other.Down, other.Up), includeContur);
+
+            var s = Contains(other.Centre, true) || other.Contains(Centre, true);
+            return f || s;
+
             return this.IsIntersectedNonCommutative(other, includeContur) || other.IsIntersectedNonCommutative(this, includeContur);
+        }
+
+        public bool Contains(Vector other, bool include)
+        {
+            return new Segment(Left, Right).Contains(other.X, include) &&
+                   new Segment(Down, Up).Contains(other.Y, include);
         }
 
         private bool IsIntersectedNonCommutative(Rectangle other, bool includeContur = true)
         {
-            var xIntersected = other.RightTop.X.IsInRange(RightTop.X, LeftBottom.X, includeContur) || other.LeftBottom.X.IsInRange(RightTop.X, LeftBottom.X, includeContur);
-            var yIntersected = other.RightTop.Y.IsInRange(RightTop.Y, LeftBottom.Y, includeContur) || other.LeftBottom.Y.IsInRange(RightTop.Y, LeftBottom.Y, includeContur);
+            var xIntersected = other.Left.IsInRange(Left, Right, includeContur) || other.Right.IsInRange(Left, Right, includeContur);
+            var yIntersected = other.Up.IsInRange(Up, Down, includeContur) || other.Down.IsInRange(Up, Down, includeContur);
             return xIntersected && yIntersected;
-        }
+        }/*
 
         public bool Equals(Rectangle other) => other != null && Size.Equals(other.Size) && Centre.Equals(other.Centre);
         public override int GetHashCode() => Size.GetHashCode();
-        public override bool Equals(object obj) => Equals(obj as Rectangle);
-        public override string ToString() => $"{{{Size} on {Centre}: LT={RightTop}, RB={LeftBottom}}}";
+        public override bool Equals(object obj) => Equals(obj as Rectangle);*/
+        public override string ToString() => $"{{{Size} on {Centre}: RT={RightUp}, LB={LeftBottom}}}";
     }
 }
