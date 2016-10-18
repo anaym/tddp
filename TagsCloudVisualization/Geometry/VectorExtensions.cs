@@ -16,21 +16,5 @@ namespace TagsCloudVisualization.Geometry
         public static Size ToSize(this Vector v) => new Size(v.X, v.Y);
 
         public static Vector ToVector(this Size s) => new Vector(s.Width, s.Height);
-
-        public static Vector ToVector(this Direction direction)
-        {
-            switch (direction)
-            {
-                case Direction.Up:
-                    return new Vector(0, 1);
-                case Direction.Down:
-                    return new Vector(0, -1);
-                case Direction.Left:
-                    return new Vector(-1, 0);
-                case Direction.Right:
-                    return new Vector(1, 0);
-            }
-            throw new NotImplementedException("Not defined direction");
-        }
     }
 }

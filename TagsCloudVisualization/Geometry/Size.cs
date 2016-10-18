@@ -11,6 +11,8 @@ namespace TagsCloudVisualization.Geometry
 
         public Size(int width, int height)
         {
+            if (width < 0 || height < 0)
+                throw new ArgumentException("Width and height must be a non negative!");
             Width = width;
             Height = height;
         }

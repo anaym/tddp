@@ -60,23 +60,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CircularLayouter\Bucket.cs" />
-    <Compile Include="CircularLayouter\CircularCloudLayouter.cs" />
-    <Compile Include="CircularLayouter\CircularCloudLayouterBucketController.cs" />
-    <Compile Include="CircularLayouter\CircularCloudLayouter_Should.cs" />
+    <Compile Include="CircularCloudLayouter.cs" />
+    <Compile Include="Geometry2DrawCastExtension.cs" />
+    <Compile Include="Tests\CircularCloudLayouter.Test.cs" />
     <Compile Include="Extensions\DictionaryExtension.cs" />
     <Compile Include="Extensions\IntExtension.cs" />
     <Compile Include="Extensions\LinqExtension.cs" />
-    <Compile Include="Geometry\Direction.cs" />
+    <Compile Include="Geometry\Test\Rectangle.Test.cs" />
+    <Compile Include="Geometry\Test\ParallelSegment.Test.cs" />
     <Compile Include="Geometry\RectangleExtensions.cs" />
-    <Compile Include="Geometry\Segment.cs" />
+    <Compile Include="Geometry\ParallelSegment.cs" />
     <Compile Include="Geometry\VectorExtensions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Geometry\Size.cs" />
     <Compile Include="Geometry\Rectangle.cs" />
     <Compile Include="Geometry\Vector.cs" />
-    <Compile Include="TagCloud.cs" />
+    <Compile Include="TagCloudToBitmapConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

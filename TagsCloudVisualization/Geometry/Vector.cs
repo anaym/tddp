@@ -26,6 +26,7 @@ namespace TagsCloudVisualization
         }
         public Vector Sub(Vector other) => Add(other.Mul(-1));
         public Vector Mul(int k) => new Vector(k*X, k*Y);
+        public Vector Div(int k) => new Vector(X/k, Y/k);
         public int ScalarMul(Vector other) => other.X*X + other.Y*Y;
 
         public bool Equals(Vector other) => other != null && (other.X == X && other.Y == Y);

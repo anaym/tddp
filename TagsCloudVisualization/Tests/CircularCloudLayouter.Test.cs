@@ -5,7 +5,7 @@ using FluentAssertions;
 using NUnit.Framework;
 using TagsCloudVisualization.Geometry;
 
-namespace TagsCloudVisualization.CircularLayouter
+namespace TagsCloudVisualization.Tests
 {
     [TestFixture]
     public class CircularCloudLayouter_Should
@@ -33,12 +33,12 @@ namespace TagsCloudVisualization.CircularLayouter
 
         private int GetOutRectangleSquare()
         {
-            return layouter.GetRectangles().OutRectangle().Size.Square;
+            return layouter.GetRectangles().TangentialRectangle().Size.Square;
         }
 
         private int GetSumPiecesSquare()
         {
-            if (!layouter.rectangles.Any())
+            if (!layouter.GetRectangles().Any())
                 return 0;
             return layouter.GetRectangles().Sum(r => r.Size.Width*r.Size.Height);
         }
@@ -100,8 +100,9 @@ namespace TagsCloudVisualization.CircularLayouter
             PutAnyRectangles(100);
             layouter
                 .GetRectangles()
-                .All(r => layouter.GetRectangles().All(o => !o.IsIntersected(r, false)))
-                .Should().BeTrue();
+                .Where(r => layouter.GetRectangles().All(o => o.IsIntersected(r, false) && o != r))
+                .ToList()
+                .ShouldAllBeEquivalentTo(Enumerable.Empty<Rectangle>());
         }
 
         [Test]
