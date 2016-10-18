@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
 using TagsCloudVisualization.Extensions;
 using TagsCloudVisualization.Geometry;
@@ -11,13 +10,16 @@ namespace TagsCloudVisualization.CircularLayouter
     {
         public readonly Vector Centre;
         public List<Rectangle> rectangles;
-        private HashSet<Vector> insertSpots;
+        //private HashSet<Vector> insertSpots;
+        private CircularCloudLayouterBucketController spots;
 
         public CircularCloudLayouter(Vector centre)
         {
             this.Centre = centre;
-            insertSpots = new HashSet<Vector>();
+            //insertSpots = new HashSet<Vector>();
             rectangles = new List<Rectangle>();
+
+            spots = new CircularCloudLayouterBucketController(centre);
         }
 
         public CircularCloudLayouter() : this(new Vector(0, 0))
@@ -37,21 +39,33 @@ namespace TagsCloudVisualization.CircularLayouter
                 var rt = TryInsertRightTop(rectangleSize);
                 if (lb == null)
                 {
-                    return rt.Item1;
+                    rect = rt.Item1;
                 }
-                rect = lb.Item2 < rt.Item2 ? lb.Item1 : rt.Item1;
+                else if (rt == null)
+                {
+                    rect = lb.Item1;
+                }
+                else
+                {
+                    rect = lb.Item2 < rt.Item2 ? lb.Item1 : rt.Item1;
+                }
             }
+            else
+            {
+                spots.AddMany(new Vector(rect.Left, Centre.Y),
+                    new Vector(rect.Right, Centre.Y),
+                    new Vector(Centre.X, rect.Up),
+                    new Vector(Centre.X, rect.Down));
+            }
+            spots.Swap();
             rectangles.Add(rect);
-            insertSpots.Add(rect.LeftBottom);
-            insertSpots.Add(rect.RightUp);
-            insertSpots.Add(rect.LeftUp);
-            insertSpots.Add(rect.RightBottom);
+            spots.AddMany(rect.LeftBottom, rect.RightUp, rect.LeftUp, rect.RightBottom);
             return rect;
         }
 
         private Tuple<Rectangle, int> TryInsertLeftBottom(Size size)
         {
-            var rect = insertSpots
+            var rect = spots.Data
                 .Select(w => Rectangle.FromLeftBottom(w, size))
                 .Where(r => !IsIntersected(r)).ToList()
                 .MinOrDefault(r => r.Centre.DistanceTo(Centre));
@@ -62,7 +76,7 @@ namespace TagsCloudVisualization.CircularLayouter
 
         private Tuple<Rectangle, int> TryInsertRightTop(Size size)
         {
-            var rect = insertSpots
+            var rect = spots.Data
                 .Select(w => Rectangle.FromRightTop(w, size))
                 .Where(r => !IsIntersected(r))
                 .MinOrDefault(r => r.Centre.DistanceTo(Centre));

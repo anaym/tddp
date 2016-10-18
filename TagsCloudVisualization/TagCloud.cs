@@ -33,7 +33,7 @@ namespace TagsCloudVisualization
             var yStep = sizeDelta.Y*1.0/delta;
             foreach (var pair in data.OrderByDescending(p => p.Value))
             {
-                var size = new Size(((int)(xStep * pair.Value) + minCharSize.Width) * pair.Key.Length, (int)(yStep * pair.Value) + minCharSize.Height);
+                var size = new Size(((int)(xStep * pair.Value * 0.5) + minCharSize.Width) * pair.Key.Length, (int)(yStep * pair.Value) + minCharSize.Height);
                 var rect = layouter.PutNextRectangle(size);
                 rectangleToTag.Add(rect, pair.Key);
             }
@@ -48,10 +48,6 @@ namespace TagsCloudVisualization
             var brush = new SolidBrush(Color.Red);
             var check = new List<Rectangle>();
             var n = 0;
-
-            var a = layouter.rectangles[0];
-            var b = layouter.rectangles[1];
-            var i = a.IsIntersected(b, false);
 
             foreach (var rectangle in layouter.GetRectangles())
             {
@@ -69,7 +65,7 @@ namespace TagsCloudVisualization
                     stringFormat.LineAlignment = StringAlignment.Center;
 
                     graphics.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
-                    var goodFont = FindFont(graphics, tag, rectF.Size, new Font(FontFamily.GenericMonospace,16));
+                    var goodFont = FindFont(graphics, tag, rectF.Size, new Font(FontFamily.GenericMonospace, 128));
                     graphics.DrawString(tag, goodFont, brush, rectF, stringFormat);
 
                 }
@@ -78,8 +74,8 @@ namespace TagsCloudVisualization
                     Console.WriteLine("DRAW ERROR");
                 }
             }
-            graphics.DrawLine(new Pen(Color.AliceBlue), 0, outer.Size.Height/2, outer.Size.Width, outer.Size.Height / 2);
-            graphics.DrawLine(new Pen(Color.AliceBlue), outer.Size.Width/2, 0, outer.Size.Width/2, outer.Size.Height);
+            graphics.DrawLine(new Pen(Color.Blue), 0, outer.Size.Height/2, outer.Size.Width, outer.Size.Height / 2);
+            graphics.DrawLine(new Pen(Color.Blue), outer.Size.Width/2, 0, outer.Size.Width/2, outer.Size.Height);
             Console.WriteLine(layouter.GetRectangles().Count(r => layouter.GetRectangles().Any(o => o.IsIntersected(r, false))));
             var bad = check.Where(r => check.Any(o => o.IsIntersected(r, false))).ToList();
             foreach (var rectangle in bad)

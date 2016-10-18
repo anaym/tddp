@@ -17,7 +17,7 @@ namespace TagsCloudVisualization
             Y = y;
         }
 
-        public int Norm => Math.Abs(X) + Math.Abs(Y);
+        public int Norm => (int)Math.Sqrt(X*X + Y*Y);
         public int DistanceTo(Vector other) => Sub(other).Norm;
 
         public Vector Add(Vector other)

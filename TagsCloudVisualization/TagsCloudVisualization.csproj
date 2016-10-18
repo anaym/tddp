@@ -60,7 +60,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CircularLayouter\Bucket.cs" />
     <Compile Include="CircularLayouter\CircularCloudLayouter.cs" />
+    <Compile Include="CircularLayouter\CircularCloudLayouterBucketController.cs" />
     <Compile Include="CircularLayouter\CircularCloudLayouter_Should.cs" />
     <Compile Include="Extensions\DictionaryExtension.cs" />
     <Compile Include="Extensions\IntExtension.cs" />
