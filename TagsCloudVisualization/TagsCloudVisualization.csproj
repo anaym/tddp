@@ -67,7 +67,6 @@
     <Compile Include="TagCloud.cs" />
     <Compile Include="Tests\CircularCloudLayouter.Test.cs" />
     <Compile Include="Extensions\DictionaryExtension.cs" />
-    <Compile Include="Extensions\IntExtension.cs" />
     <Compile Include="Extensions\LinqExtension.cs" />
     <Compile Include="Geometry\Test\Rectangle.Test.cs" />
     <Compile Include="Geometry\Test\ParallelSegment.Test.cs" />
@@ -75,16 +74,16 @@
     <Compile Include="Geometry\ParallelSegment.cs" />
     <Compile Include="Geometry\VectorExtensions.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Geometry\Size.cs" />
     <Compile Include="Geometry\Rectangle.cs" />
     <Compile Include="Geometry\Vector.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
