@@ -61,9 +61,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CircularCloudLayouter.cs" />
-    <Compile Include="CloudRenderer.cs" />
+    <Compile Include="TagCloudRenderer.cs" />
     <Compile Include="Geometry2DrawCastExtension.cs" />
     <Compile Include="ICircularCloudLayouter.cs" />
+    <Compile Include="TagCloud.cs" />
     <Compile Include="Tests\CircularCloudLayouter.Test.cs" />
     <Compile Include="Extensions\DictionaryExtension.cs" />
     <Compile Include="Extensions\IntExtension.cs" />
@@ -78,7 +79,6 @@
     <Compile Include="Geometry\Size.cs" />
     <Compile Include="Geometry\Rectangle.cs" />
     <Compile Include="Geometry\Vector.cs" />
-    <Compile Include="TagCloudToBitmapConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -6,7 +6,7 @@ using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TagsCloudVisualization.Geometry;
+using Size = TagsCloudVisualization.Geometry.Size;
 
 namespace TagsCloudVisualization
 {
@@ -80,23 +80,24 @@ namespace TagsCloudVisualization
 
         static void Main(string[] args)
         {
-            var charHeightPerWidth = 1.35;
-            var minWidth = 16;
-            var maxWidth = 64;
-            var outFileName = "ot.png";
+            var charHeightPerWidth = 2;
+            var minWidth = 32;
+            var outFileName = "out.png";
 
             ShporaStatistic = ShporaStatistic
                 .Select(p => new KeyValuePair<string, int>("[" + p.Key.Trim() + "]", p.Value))
-                .ToDictionary(p => p.Key, p => p.Value);/*
-            var cloud = new TagCloudToBitmapConverter(ShporaStatistic, new Size(minWidth, (int) (minWidth*charHeightPerWidth)),
-                new Size(maxWidth, (int) (maxWidth*charHeightPerWidth)));
-            var bitmap = cloud.ToBitmap();*/
-            var renderer = new CloudRenderer(new CircularCloudLayouter(Vector.Zero, new Vector(3, 1)));
-            renderer.PutTags(ShporaStatistic); //а если повторно вызвать PutTags?
-            var size = renderer.VisualizeRectangle.Size;
-            var bitmap = new Bitmap(size.Width, size.Height);
-            renderer.Render(Graphics.FromImage(bitmap));
-            bitmap.Save(outFileName, ImageFormat.Png);
+                .ToDictionary(p => p.Key, p => p.Value);
+
+            var layoter = new CircularCloudLayouter(Vector.Zero, new Vector(2, 1));
+
+            var tags = new TagCloud(
+                layoter,
+                new Size(minWidth, (int) (minWidth*charHeightPerWidth)),
+                v => v*(int)Math.Sqrt(v));
+
+            var renderer = new TagCloudRenderer {ShowRectangles = false};
+            tags.PutManyTags(ShporaStatistic);
+            renderer.RenderToBitmap(tags).Save(outFileName, ImageFormat.Png);
             Process.Start(outFileName);
         }
 

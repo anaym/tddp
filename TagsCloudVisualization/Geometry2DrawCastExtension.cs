@@ -23,6 +23,6 @@ namespace TagsCloudVisualization
             return new PointF(vector.X - outter.Left, outter.Size.Height - vector.Y + outter.Bottom);
         }
 
-        public static Color ToColor(this object obj) => Color.FromArgb(50, Color.FromArgb(obj.GetHashCode()));
+        public static Color ToColor(this object obj) => Color.FromArgb(255, Color.FromArgb(obj.GetHashCode()));
     }
 }
