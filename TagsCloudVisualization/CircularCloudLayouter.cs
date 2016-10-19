@@ -6,13 +6,14 @@ using TagsCloudVisualization.Geometry;
 
 namespace TagsCloudVisualization
 {
-    public class CircularCloudLayouter
+    public class CircularCloudLayouter : ICircularCloudLayouter
     {
         public readonly Vector Centre;
         private readonly List<Rectangle> rectangles;
         private readonly HashSet<Vector> spots;
-        private Vector averageVector;
         public readonly Vector Extension;
+
+        private Vector averageVector;
 
         public CircularCloudLayouter(Vector centre, Vector extension)
         {
@@ -65,7 +66,7 @@ namespace TagsCloudVisualization
 
             return rect;
         }
-
+         
         private Rectangle TryInsert(Size size)
         {
             var rect = spots

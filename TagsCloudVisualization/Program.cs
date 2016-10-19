@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
@@ -86,10 +87,15 @@ namespace TagsCloudVisualization
 
             ShporaStatistic = ShporaStatistic
                 .Select(p => new KeyValuePair<string, int>("[" + p.Key.Trim() + "]", p.Value))
-                .ToDictionary(p => p.Key, p => p.Value);
+                .ToDictionary(p => p.Key, p => p.Value);/*
             var cloud = new TagCloudToBitmapConverter(ShporaStatistic, new Size(minWidth, (int) (minWidth*charHeightPerWidth)),
                 new Size(maxWidth, (int) (maxWidth*charHeightPerWidth)));
-            var bitmap = cloud.ToBitmap();
+            var bitmap = cloud.ToBitmap();*/
+            var renderer = new CloudRenderer(new CircularCloudLayouter(Vector.Zero, new Vector(3, 1)));
+            renderer.PutTags(ShporaStatistic); //а если повторно вызвать PutTags?
+            var size = renderer.VisualizeRectangle.Size;
+            var bitmap = new Bitmap(size.Width, size.Height);
+            renderer.Render(Graphics.FromImage(bitmap));
             bitmap.Save(outFileName, ImageFormat.Png);
             Process.Start(outFileName);
         }
