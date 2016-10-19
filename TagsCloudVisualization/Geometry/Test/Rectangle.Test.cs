@@ -7,7 +7,7 @@ namespace TagsCloudVisualization.Geometry.Test
     public class Rectangle_Should
     {
         [Test]
-        public void CorrectCreated()
+        public void CreateCorrect()
         {
             var rect = Rectangle.FromRightTop(new Vector(100, 0), new Size(100, 50));
             rect.Size.Should().Be(new Size(100, 50));

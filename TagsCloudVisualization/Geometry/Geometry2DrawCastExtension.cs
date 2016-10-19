@@ -1,8 +1,6 @@
 ﻿using System.Drawing;
-using Rectangle = TagsCloudVisualization.Geometry.Rectangle;
-using Size = TagsCloudVisualization.Geometry.Size;
 
-namespace TagsCloudVisualization
+namespace TagsCloudVisualization.Geometry
 {
     public static class Geometry2DrawCastExtension
     {

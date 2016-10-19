@@ -85,8 +85,15 @@ namespace TagsCloudVisualization
             var outFileName = "out.png";
 
             ShporaStatistic = ShporaStatistic
-                .Select(p => new KeyValuePair<string, int>("[" + p.Key.Trim() + "]", p.Value))
+                .Select(p => new KeyValuePair<string, int>($"[{p.Key.Trim()}]", p.Value))
                 .ToDictionary(p => p.Key, p => p.Value);
+
+            var bigData = new Dictionary<string, int>();
+            var rnd = new Random();
+            foreach (var i in Enumerable.Range(0, 100))
+            {
+                bigData.Add(i + "_" + rnd.Next() % 256, i);
+            }
 
             var layoter = new CircularCloudLayouter(Vector.Zero, new Vector(2, 1));
 
@@ -100,7 +107,5 @@ namespace TagsCloudVisualization
             renderer.RenderToBitmap(tags).Save(outFileName, ImageFormat.Png);
             Process.Start(outFileName);
         }
-
-
     }
 }

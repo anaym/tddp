@@ -75,27 +75,27 @@ namespace TagsCloudVisualization.Tests
 
         [TestCase(5, 10, 7, 12, TestName = "All dimensions")]
         [TestCase(5, 10, 3, 12, TestName = "Non comparable")]
-        public void ThrowArgumentException_WhenRectanclesPuttedNonOrderedBySizeDecending(int w1, int h1, int w2, int h2)
+        public void ThrowArgumentException_WhenHeightOrderedBySizeDecending(int w1, int h1, int w2, int h2)
         {
             layouter.PutNextRectangle(new Size(w1, h1));
             Assert.Throws<ArgumentException>(() => layouter.PutNextRectangle(new Size(w2, h2)));
         }
 
         [TestCase(5, 10, 30, 8, TestName = "Non comparable")]
-        public void CorrectWork_WhenWidthPuttedNonOrderedByDecending(int w1, int h1, int w2, int h2)
+        public void CorrectWork_WhenWidthNotOrderedByDecending(int w1, int h1, int w2, int h2)
         {
             layouter.PutNextRectangle(new Size(w1, h1));
             Assert.DoesNotThrow(() => layouter.PutNextRectangle(new Size(w2, h2)));
         }
 
         [Test]
-        public void ThrowNullArgumentException_WhenTryPuttNull()
+        public void ThrowNullArgumentException_WhenPutNull()
         {
             Assert.Throws<ArgumentNullException>(() => layouter.PutNextRectangle(null));
         }
 
         [Test]
-        public void DeployRectangleNonIntersected()
+        public void RectanglesMustNotIntersected_AfterPut()
         {
             PutAnyRectangles(100);
             layouter
@@ -106,7 +106,7 @@ namespace TagsCloudVisualization.Tests
         }
 
         [Test]
-        public void TestEfficency()
+        public void TightlyPlaceRectangles()
         {
             PutAnyRectangles(10);
             Math.Abs(GetSumPiecesSquare() - GetOutRectangleSquare()).Should().BeLessThan((int)(0.8 * GetSumPiecesSquare()));
