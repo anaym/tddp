@@ -4,11 +4,6 @@ namespace TagsCloudVisualization.Geometry
 {
     public static class Geometry2DrawCastExtension
     {
-        public static Rectangle ToRectangle(this RectangleF tangentialRectangle)
-        {
-            return new Rectangle(new Vector((int)tangentialRectangle.Left, (int)tangentialRectangle.Bottom), new Vector((int)tangentialRectangle.Right, (int)tangentialRectangle.Top));
-        }
-
         public static RectangleF ToRectangleF(this Rectangle rectangle, Rectangle tangentialRectangle)
         {
             var a = rectangle.LeftTop.ToPointF(tangentialRectangle);
