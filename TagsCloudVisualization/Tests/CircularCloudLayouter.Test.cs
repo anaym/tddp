@@ -7,6 +7,8 @@ using TagsCloudVisualization.Geometry;
 
 namespace TagsCloudVisualization.Tests
 {
+    // CR (krait): Проблемы с именованием тестов. См. комментарий к ParallelSegment_Should.
+
     [TestFixture]
     public class CircularCloudLayouter_Should
     {
@@ -18,29 +20,30 @@ namespace TagsCloudVisualization.Tests
             layouter = new CircularCloudLayouter();
         }
 
-        private List<Rectangle> PutAnyRectangles(int count, int minSize = 1)
+        private List<Rectangle> PutSomeRectangles(int count, int minSize = 1)
         {
             var buffer = new List<Rectangle>();
             var rnd = new Random(123);
             for (int i = 0; i < count; i++)
             {
-                var size = new Size(rnd.Next() % 10000, count - i + minSize - 1);
+                var size = new Size(rnd.Next(10000), count - i + minSize - 1);
                 var rect = layouter.PutNextRectangle(size);
                 buffer.Add(rect);
             }
             return buffer;
         }
 
-        private int GetOutRectangleSquare()
+        private int GetOuterRectangleArea()
         {
             return layouter.GetRectangles().TangentialRectangle().Size.Square;
         }
 
-        private int GetSumPiecesSquare()
+        private int GetTotalAreaOfRectangles()
         {
             if (!layouter.GetRectangles().Any())
                 return 0;
-            return layouter.GetRectangles().Sum(r => r.Size.Width*r.Size.Height);
+            // CR (krait): В Size же есть хелпер, считающий площадь?
+            return layouter.GetRectangles().Sum(r => r.Size.Width * r.Size.Height);
         }
 
         [TestCase(0, 0, TestName = "Begin of coordinates")]
@@ -52,10 +55,11 @@ namespace TagsCloudVisualization.Tests
             rect.Centre.Should().Be(layouter.Centre);
         }
 
+        // CR (krait): Put - неправильный глагол.
         [Test]
         public void SaveAllPuttedSizes()
         {
-            var putted = PutAnyRectangles(10).Select(r => r.Size);
+            var putted = PutSomeRectangles(10).Select(r => r.Size);
             layouter.GetRectangles()
                 .Select(r => r.Size)
                 .ShouldAllBeEquivalentTo(putted, o => o.WithStrictOrdering());
@@ -64,7 +68,7 @@ namespace TagsCloudVisualization.Tests
         [Test]
         public void DontMutatePreviousRectangles_AfterPutNew()
         {
-            var putted = PutAnyRectangles(10, minSize:2);
+            var putted = PutSomeRectangles(10, minSize:2);
 
             layouter.PutNextRectangle(new Size(1, 1));
 
@@ -97,7 +101,7 @@ namespace TagsCloudVisualization.Tests
         [Test]
         public void RectanglesMustNotIntersected_AfterPut()
         {
-            PutAnyRectangles(100);
+            PutSomeRectangles(100);
             layouter
                 .GetRectangles()
                 .Where(r => layouter.GetRectangles().All(o => o.IsIntersected(r, false) && o != r))
@@ -108,8 +112,8 @@ namespace TagsCloudVisualization.Tests
         [Test]
         public void TightlyPlaceRectangles()
         {
-            PutAnyRectangles(10);
-            Math.Abs(GetSumPiecesSquare() - GetOutRectangleSquare()).Should().BeLessThan((int)(0.8 * GetSumPiecesSquare()));
+            PutSomeRectangles(10);
+            Math.Abs(GetTotalAreaOfRectangles() - GetOuterRectangleArea()).Should().BeLessThan((int)(0.8 * GetTotalAreaOfRectangles()));
         }
     }
 }

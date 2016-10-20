@@ -68,8 +68,8 @@
     <Compile Include="Tests\CircularCloudLayouter.Test.cs" />
     <Compile Include="Extensions\DictionaryExtension.cs" />
     <Compile Include="Extensions\LinqExtension.cs" />
-    <Compile Include="Geometry\Test\Rectangle.Test.cs" />
-    <Compile Include="Geometry\Test\ParallelSegment.Test.cs" />
+    <Compile Include="Geometry\Tests\Rectangle.Test.cs" />
+    <Compile Include="Geometry\Tests\ParallelSegment.Test.cs" />
     <Compile Include="Geometry\RectangleExtensions.cs" />
     <Compile Include="Geometry\ParallelSegment.cs" />
     <Compile Include="Geometry\VectorExtensions.cs" />

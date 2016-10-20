@@ -8,6 +8,7 @@ namespace TagsCloudVisualization
 {
     public class CircularCloudLayouter : ICircularCloudLayouter
     {
+        // CR (krait): Некрасиво писать приватные поля вперемешку с публичными.
         public readonly Vector Centre;
         private readonly List<Rectangle> rectangles;
         private readonly HashSet<Vector> spots;
@@ -38,9 +39,11 @@ namespace TagsCloudVisualization
             }
             if (rectangles.Any() && rectangles.Last().Size.Height < rectangleSize.Height)
             {
-                throw new ArgumentException("Rectangles must be ordered by desending sizes");
+                throw new ArgumentException("Rectangles must be ordered by descending sizes");
             }
+            // CR (krait): Зачем делать эту проверку здесь, разве Extension меняется между вызовами PutNextRectangle?
             if (Extension.X == 0 || Extension.Y == 0)
+                // CR (krait): Это не DivideByZeroException, а ArgumentException. И extension можно вынести в nameof().
                 throw new DivideByZeroException("Bad argument: extension. Must be non zero");
             var rect = Rectangle.FromCentre(Centre, rectangleSize);
             if (rectangles.Any())

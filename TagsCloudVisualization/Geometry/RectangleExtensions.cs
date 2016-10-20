@@ -6,6 +6,8 @@ namespace TagsCloudVisualization.Geometry
 {
     public static class RectangleExtensions
     {
+        // CR (krait): Где тесты на это?
+
         //по-английски это описанный прямоугольник 0_о
         public static Rectangle TangentialRectangle(this IEnumerable<Rectangle> rectangles)
         {
@@ -13,17 +15,17 @@ namespace TagsCloudVisualization.Geometry
             var maxX = int.MinValue;
             var minY = int.MaxValue;
             var maxY = int.MinValue;
-            var exist = false;
+            var exists = false;
             foreach (var rectangle in rectangles)
             {
-                exist = true;
+                exists = true;
                 minX = Math.Min(rectangle.Left, minX);
                 minY = Math.Min(rectangle.Bottom, minY);
 
                 maxX = Math.Max(rectangle.Right, maxX);
                 maxY = Math.Max(rectangle.Top, maxY);
             }
-            return !exist ? null : new Rectangle(maxX, maxY, minX, minY);
+            return !exists ? null : new Rectangle(maxX, maxY, minX, minY);
         }
     }
 }

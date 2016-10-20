@@ -49,7 +49,7 @@ namespace TagsCloudVisualization
         {
             var height = ValueToHeight(value) + MinCharSize.Height;
             var width = height*tag.Length/HeightPerWidth + MinCharSize.Width;
-            return new Size((int) width, (int)height);
+            return new Size((int) width, height);
         }
     }
 }

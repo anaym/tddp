@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Size = TagsCloudVisualization.Geometry.Size;
 
 namespace TagsCloudVisualization
 {
+    // CR (krait): 
+    // В коде много неудачных названий, которые вводят читателя в заблуждение. Некоторые из них я поправил сам, посмотри на такие места и попробуй понять, что было не так.
+
     class Program
     {
         #region Data
+
         public static Dictionary<string, int> ShporaStatistic = new Dictionary<string, int>
         {
             {"	Котельников Алексей	", 71},
@@ -76,6 +77,7 @@ namespace TagsCloudVisualization
             {"12", 12},
             {"13", 13},
         };
+
         #endregion
 
         static void Main(string[] args)

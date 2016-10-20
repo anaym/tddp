@@ -7,10 +7,12 @@ namespace TagsCloudVisualization.Geometry
         public static RectangleF ToRectangleF(this Rectangle rectangle, Rectangle tangentialRectangle)
         {
             var a = rectangle.LeftTop.ToPointF(tangentialRectangle);
+            // CR (krait): Зачем нужна переменная b?
             var b = rectangle.RightBottom.ToPointF(tangentialRectangle);
             return new RectangleF(a.X, a.Y, rectangle.Size.Width, rectangle.Size.Height);
         }
 
+        // CR (krait): Rectangle outter? Попробуй назвать этот параметр так, чтобы было понятно, что он значит.
         public static PointF ToPointF(this Vector vector, Rectangle outter)
         {
             return new PointF(vector.X - outter.Left, outter.Size.Height - vector.Y + outter.Bottom);

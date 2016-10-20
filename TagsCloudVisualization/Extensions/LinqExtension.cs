@@ -7,14 +7,14 @@ namespace TagsCloudVisualization.Extensions
     {
         public static T MinOrDefault<T>(this IEnumerable<T> seq, Func<T, int> keyExtractor)
         {
-            var min = int.MaxValue;
+            var minKey = int.MaxValue;
             var data = default(T);
             foreach (var item in seq)
             {
-                var now = keyExtractor(item);
-                if (now < min)
+                var currentKey = keyExtractor(item);
+                if (currentKey < minKey)
                 {
-                    min = now;
+                    minKey = currentKey;
                     data = item;
                 }
             }

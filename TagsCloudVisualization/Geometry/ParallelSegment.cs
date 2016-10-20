@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TagsCloudVisualization.Extensions;
 
 namespace TagsCloudVisualization.Geometry
 {
+    // CR (krait): 
+    // Стоит сделать ParallelSegment структурой:
+    // 1. Все поля immutable.
+    // 2. Суммарный размер полей всего 8 байт, копировать её будет дёшево.
+
     public class ParallelSegment : IEquatable<ParallelSegment>
     {
         public readonly int Left;
@@ -25,11 +25,12 @@ namespace TagsCloudVisualization.Geometry
 
         public bool IsIntersected(ParallelSegment other, bool includeBorder = true)
         {
+            // CR (krait): Зачем проверять эти условия до проверки Equals(other)? Если она пройдёт, считать их будет без надобности.
             var a = Contains(other.Left, includeBorder) || Contains(other.Right, includeBorder);
             var b = other.Contains(Left, includeBorder) || other.Contains(Right, includeBorder);
             return Equals(other) || a || b;
         }
-
+        
         public override int GetHashCode() => Left ^ Right;
         public bool Equals(ParallelSegment other) => other != null && Left == other.Left && Right == other.Right;
         public override bool Equals(object obj) => Equals(obj as ParallelSegment);

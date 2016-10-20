@@ -8,6 +8,8 @@ namespace TagsCloudVisualization
 {
     public class TagCloudRenderer
     {
+        // CR (krait): Изменяемые публичные поля выглядят неаккуратно. Лучше принять всё это в конструкторе.
+
         public Brush TextBrush;
         public bool ShowRectangles;
         public StringFormat StringFormat;

@@ -3,6 +3,14 @@ using NUnit.Framework;
 
 namespace TagsCloudVisualization.Geometry.Test
 {
+    // CR (krait): 
+    // Проблемы с именованием тестов. 
+    // По твоей идее, как я понял, название TestFixture и название теста должны вместе образовывать фразу, задающую свойство, которое должно выполняться. 
+    // Однако, это не очень получается: ParallelSegment should intersected when equals - это не по-английски.
+    // Попробуй поменять названия так, чтобы они образовывали корректные фразы на английском, а то сейчас читается очень тяжело.
+
+    // CR (krait): Где тесты на Contains?
+
     [TestFixture]
     public class ParallelSegment_Should
     {

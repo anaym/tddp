@@ -3,6 +3,10 @@ using NUnit.Framework;
 
 namespace TagsCloudVisualization.Geometry.Test
 {
+    // CR (krait): Проблемы с именованием тестов. См. комментарий к ParallelSegment_Should.
+
+    // CR (krait): Где тесты на Contains?
+
     [TestFixture]
     public class Rectangle_Should
     {
