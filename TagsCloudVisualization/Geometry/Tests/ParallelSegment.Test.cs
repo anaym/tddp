@@ -1,5 +1,7 @@
-﻿using FluentAssertions;
+﻿using System;
+using FluentAssertions;
 using NUnit.Framework;
+using NUnit.Framework.Constraints;
 
 namespace TagsCloudVisualization.Geometry.Test
 {
@@ -9,7 +11,7 @@ namespace TagsCloudVisualization.Geometry.Test
     // Однако, это не очень получается: ParallelSegment should intersected when equals - это не по-английски.
     // Попробуй поменять названия так, чтобы они образовывали корректные фразы на английском, а то сейчас читается очень тяжело.
 
-    // CR (krait): Где тесты на Contains?
+    // !CR (krait): Где тесты на Contains?
 
     [TestFixture]
     public class ParallelSegment_Should
@@ -31,6 +33,24 @@ namespace TagsCloudVisualization.Geometry.Test
         public void NotIntersected_When(int leftA, int rightA, int leftB, int rightB, bool includeBorder)
         {
             new ParallelSegment(leftA, rightA).IsIntersected(new ParallelSegment(leftB, rightB), includeBorder).Should().BeFalse();
+        }
+
+        [TestCase(0, 2, 1, true, TestName = "Centre with borders")]
+        [TestCase(0, 2, 1, false, TestName = "Centre without borders")]
+        [TestCase(0, 2, 0, true, TestName = "Left with border")]
+        [TestCase(0, 2, 2, true, TestName = "Right with border")]
+        public void MustContainsPoint(int left, int right, int point, bool includeBorder)
+        {
+            new ParallelSegment(left, right).Contains(point, includeBorder).Should().BeTrue();
+        }
+
+        [TestCase(0, 2, 0, false, TestName = "Left without border")]
+        [TestCase(0, 2, 2, false, TestName = "Right without border")]
+        [TestCase(0, 2, -2, true, TestName = "Out with border")]
+        [TestCase(0, 2, -2, false, TestName = "Out without border")]
+        public void MustNotContainsPoint(int left, int right, int point, bool includeBorder)
+        {
+            new ParallelSegment(left, right).Contains(point, includeBorder).Should().BeFalse();
         }
     }
 }

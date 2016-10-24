@@ -8,12 +8,12 @@ namespace TagsCloudVisualization
 {
     public class CircularCloudLayouter : ICircularCloudLayouter
     {
-        // CR (krait): Некрасиво писать приватные поля вперемешку с публичными.
+        // !CR (krait): Некрасиво писать приватные поля вперемешку с публичными.
         public readonly Vector Centre;
-        private readonly List<Rectangle> rectangles;
-        private readonly HashSet<Vector> spots;
         public readonly Vector Extension;
 
+        private readonly List<Rectangle> rectangles;
+        private readonly HashSet<Vector> spots;
         private Vector averageVector;
 
         public CircularCloudLayouter(Vector centre, Vector extension)
@@ -23,6 +23,11 @@ namespace TagsCloudVisualization
             rectangles = new List<Rectangle>();
             averageVector = Vector.Zero;
             spots = new HashSet<Vector>();
+
+            // !CR (krait): Зачем делать эту проверку здесь, разве Extension меняется между вызовами PutNextRectangle?
+            if (Extension.X == 0 || Extension.Y == 0)
+                // !CR (krait): Это не DivideByZeroException, а ArgumentException. И extension можно вынести в nameof().
+                throw new ArgumentException(nameof(Extension));
         }
 
         public CircularCloudLayouter(Vector centre) : this(centre, new Vector(2, 1))
@@ -33,29 +38,17 @@ namespace TagsCloudVisualization
 
         public Rectangle PutNextRectangle(Size rectangleSize)
         {
-            if (rectangleSize == null)
-            {
-                throw new ArgumentNullException(nameof(rectangleSize));
-            }
             if (rectangles.Any() && rectangles.Last().Size.Height < rectangleSize.Height)
             {
                 throw new ArgumentException("Rectangles must be ordered by descending sizes");
             }
-            // CR (krait): Зачем делать эту проверку здесь, разве Extension меняется между вызовами PutNextRectangle?
-            if (Extension.X == 0 || Extension.Y == 0)
-                // CR (krait): Это не DivideByZeroException, а ArgumentException. И extension можно вынести в nameof().
-                throw new DivideByZeroException("Bad argument: extension. Must be non zero");
             var rect = Rectangle.FromCentre(Centre, rectangleSize);
             if (rectangles.Any())
             {
                 rect = TryInsert(rectangleSize);
-                if (rect == null)
-                {
-                    throw new Exception("Can`t insert rectangle!");
-                }
             }
             
-            averageVector = averageVector.Add(rect.Centre.Sub(Centre));
+            averageVector = averageVector + rect.Centre - Centre;
             rectangles.Add(rect);
 
             spots.Add(new Vector(rect.Left, rect.Centre.Y));
@@ -87,7 +80,7 @@ namespace TagsCloudVisualization
 
         private int Aberration(Rectangle rect)
         {
-            var newVector = rect.Centre.Sub(Centre).Add(averageVector);
+            var newVector = rect.Centre- Centre + averageVector;
             return Math.Abs(newVector.X/Extension.X) + Math.Abs(newVector.Y/Extension.Y);
         }
 

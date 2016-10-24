@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CircularCloudLayouter.cs" />
+    <Compile Include="Geometry\Tests\RectangleExtensions_Should.cs" />
     <Compile Include="TagCloudRenderer.cs" />
     <Compile Include="Geometry\Geometry2DrawCastExtension.cs" />
     <Compile Include="ICircularCloudLayouter.cs" />

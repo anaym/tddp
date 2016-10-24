@@ -5,8 +5,8 @@ using System.Security.Cryptography;
 namespace TagsCloudVisualization.Geometry
 {
     public static class RectangleExtensions
-    {
-        // CR (krait): Где тесты на это?
+    { 
+        // !CR (krait): Где тесты на это?
 
         //по-английски это описанный прямоугольник 0_о
         public static Rectangle TangentialRectangle(this IEnumerable<Rectangle> rectangles)
@@ -25,7 +25,7 @@ namespace TagsCloudVisualization.Geometry
                 maxX = Math.Max(rectangle.Right, maxX);
                 maxY = Math.Max(rectangle.Top, maxY);
             }
-            return !exists ? null : new Rectangle(maxX, maxY, minX, minY);
+            return !exists ? Rectangle.FromCentre(Vector.Zero, Size.Empty) : new Rectangle(maxX, maxY, minX, minY);
         }
     }
 }

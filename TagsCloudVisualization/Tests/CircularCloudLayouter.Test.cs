@@ -20,6 +20,12 @@ namespace TagsCloudVisualization.Tests
             layouter = new CircularCloudLayouter();
         }
 
+        [TearDown]
+        public void Failure()
+        {
+            Console.WriteLine("Fail");
+        }
+
         private List<Rectangle> PutSomeRectangles(int count, int minSize = 1)
         {
             var buffer = new List<Rectangle>();
@@ -35,15 +41,15 @@ namespace TagsCloudVisualization.Tests
 
         private int GetOuterRectangleArea()
         {
-            return layouter.GetRectangles().TangentialRectangle().Size.Square;
+            return layouter.GetRectangles().TangentialRectangle().Size.Area;
         }
 
         private int GetTotalAreaOfRectangles()
         {
             if (!layouter.GetRectangles().Any())
                 return 0;
-            // CR (krait): В Size же есть хелпер, считающий площадь?
-            return layouter.GetRectangles().Sum(r => r.Size.Width * r.Size.Height);
+            // !CR (krait): В Size же есть хелпер, считающий площадь?
+            return layouter.GetRectangles().Sum(r =>r.Size.Area);
         }
 
         [TestCase(0, 0, TestName = "Begin of coordinates")]
@@ -55,9 +61,9 @@ namespace TagsCloudVisualization.Tests
             rect.Centre.Should().Be(layouter.Centre);
         }
 
-        // CR (krait): Put - неправильный глагол.
+        // !CR (krait): Put - неправильный глагол.
         [Test]
-        public void SaveAllPuttedSizes()
+        public void SaveAllPutSizes()
         {
             var putted = PutSomeRectangles(10).Select(r => r.Size);
             layouter.GetRectangles()
@@ -93,18 +99,12 @@ namespace TagsCloudVisualization.Tests
         }
 
         [Test]
-        public void ThrowNullArgumentException_WhenPutNull()
-        {
-            Assert.Throws<ArgumentNullException>(() => layouter.PutNextRectangle(null));
-        }
-
-        [Test]
         public void RectanglesMustNotIntersected_AfterPut()
         {
             PutSomeRectangles(100);
             layouter
                 .GetRectangles()
-                .Where(r => layouter.GetRectangles().All(o => o.IsIntersected(r, false) && o != r))
+                .Where(r => layouter.GetRectangles().All(o => o.IsIntersected(r, false) && !o.Equals(r)))
                 .ToList()
                 .ShouldAllBeEquivalentTo(Enumerable.Empty<Rectangle>());
         }

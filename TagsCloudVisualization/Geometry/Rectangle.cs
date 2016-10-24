@@ -1,21 +1,23 @@
 ﻿namespace TagsCloudVisualization.Geometry
 {
-    // CR (krait): Стоит сделать структурой. См. комментарий к ParallelSegment.
+    // !CR (krait): Стоит сделать структурой. См. комментарий к ParallelSegment.
 
-    public class Rectangle
+    public struct Rectangle
     {
         public readonly Size Size;
         public readonly Vector RightTop;
         public Vector RightBottom => new Vector(Right, Bottom);
         public Vector LeftTop => new Vector(Left, Top);
         public Vector LeftBottom => new Vector(Left, Bottom);
-        public Vector Centre => RightTop.Sub(Size.ToVector().Div(2));
+        public Vector Centre => RightTop - Size.ToVector()/2;
+
+        public static readonly Rectangle Empty = new Rectangle(Vector.Zero, Size.Empty);
 
         public static Rectangle FromRightTop(Vector rightTop, Size size) => new Rectangle(rightTop, size);
-        public static Rectangle FromRightBottom(Vector rightBottom, Size size) => new Rectangle(rightBottom.Add(new Vector(0, size.Height)), size);
-        public static Rectangle FromLeftTop(Vector leftTop, Size size) => new Rectangle(leftTop.Add(new Vector(size.Width, 0)), size);
-        public static Rectangle FromLeftBottom(Vector leftBottom, Size size) => new Rectangle(leftBottom.Add(size.ToVector()), size);
-        public static Rectangle FromCentre(Vector centre, Size size) => new Rectangle(centre.Add(size.ToVector().Div(2)), size);
+        public static Rectangle FromRightBottom(Vector rightBottom, Size size) => new Rectangle(rightBottom + new Vector(0, size.Height), size);
+        public static Rectangle FromLeftTop(Vector leftTop, Size size) => new Rectangle(leftTop + new Vector(size.Width, 0), size);
+        public static Rectangle FromLeftBottom(Vector leftBottom, Size size) => new Rectangle(leftBottom + size.ToVector(), size);
+        public static Rectangle FromCentre(Vector centre, Size size) => new Rectangle(centre + size.ToVector()/2, size);
 
         public Rectangle(int right, int top, int left, int bottom) : this(new Vector(right, top), new Vector(left, bottom))
         { }
@@ -23,7 +25,7 @@
         public Rectangle(Vector rightTop, Vector leftBottom) : this(rightTop, rightTop.ToSize(leftBottom))
         { }
 
-        protected Rectangle(Vector rightTop, Size size)
+        public Rectangle(Vector rightTop, Size size)
         {
             RightTop = rightTop;
             Size = size;
@@ -49,10 +51,15 @@
                    new ParallelSegment(Bottom, Top).Contains(other.Y, include);
         }
 
-        public bool Equals(Rectangle other) => other != null && Size.Equals(other.Size) && Centre.Equals(other.Centre);
-        // CR (krait): Почему тут не учитывается позиция?
-        public override int GetHashCode() => Size.GetHashCode();
-        public override bool Equals(object obj) => Equals(obj as Rectangle);
+        public bool Contains(Rectangle other, bool include)
+        {
+            return Contains(LeftTop, include) && Contains(RightBottom, include);
+        }
+
+        public bool Equals(Rectangle other) => Size.Equals(other.Size) && Centre.Equals(other.Centre);
+        // !CR (krait): Почему тут не учитывается позиция?
+        public override int GetHashCode() => (-Size.GetHashCode()) ^ LeftTop.GetHashCode();
+        public override bool Equals(object obj) => obj is Rectangle && Equals((Rectangle)obj);
         public override string ToString() => $"{{{Size} on {Centre}: RT={RightTop}, LB={LeftBottom}}}";
     }
 }

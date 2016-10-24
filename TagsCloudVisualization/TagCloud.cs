@@ -19,7 +19,7 @@ namespace TagsCloudVisualization
             MinCharSize = minCharSize;
             ValueToHeight = valueToHeight;
             rectangleToTag = new Dictionary<Rectangle, string>();
-            if (minCharSize  == null || minCharSize.Width == 0 || minCharSize.Height == 0)
+            if (minCharSize.Width == 0 || minCharSize.Height == 0)
                 throw new ArgumentException("Bad min char size: width and height must be non zero");
             if (valueToHeight == null)
                 throw new ArgumentNullException(nameof(valueToHeight));

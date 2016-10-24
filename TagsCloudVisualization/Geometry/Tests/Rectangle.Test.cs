@@ -36,7 +36,7 @@ namespace TagsCloudVisualization.Geometry.Test
         public void Intersected_When(int xA, int yA, int xB, int yB, bool includeContur, int scaleA = 1)
         {
             var size = new Size(100, 50);
-            Rectangle.FromRightTop(new Vector(xA, yB), size.ToVector().Mul(scaleA).ToSize())
+            Rectangle.FromRightTop(new Vector(xA, yB), (size.ToVector() * scaleA).ToSize())
                 .IsIntersected(Rectangle.FromRightTop(new Vector(xB, yB), size), includeContur)
                 .Should().BeTrue();
         }
@@ -51,7 +51,7 @@ namespace TagsCloudVisualization.Geometry.Test
         public void NotIntersected_When(int xA, int yA, int xB, int yB, bool includeContur, int scaleA = 1)
         {
             var size = new Size(100, 50);
-            Rectangle.FromRightTop(new Vector(xA, yB), size.ToVector().Mul(scaleA).ToSize())
+            Rectangle.FromRightTop(new Vector(xA, yB), (size.ToVector() * scaleA).ToSize())
                 .IsIntersected(Rectangle.FromRightTop(new Vector(xB, yB), size), includeContur)
                 .Should().BeFalse();
         }
