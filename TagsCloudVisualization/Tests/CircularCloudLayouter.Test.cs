@@ -54,7 +54,7 @@ namespace TagsCloudVisualization.Tests
 
         [TestCase(0, 0, TestName = "Begin of coordinates")]
         [TestCase(100500, 10, TestName = "Another point")]
-        public void PutFirstRectangleToLayoutCentre(int cx, int cy)
+        public void PutFirstRectangleToCentre(int cx, int cy)
         {
             layouter = new CircularCloudLayouter(new Vector(cx, cy));
             var rect = layouter.PutNextRectangle(new Size(100, 20));
@@ -63,7 +63,7 @@ namespace TagsCloudVisualization.Tests
 
         // !CR (krait): Put - неправильный глагол.
         [Test]
-        public void SaveAllPutSizes()
+        public void Remember_AllRectanglesSize()
         {
             var putted = PutSomeRectangles(10).Select(r => r.Size);
             layouter.GetRectangles()
@@ -72,7 +72,7 @@ namespace TagsCloudVisualization.Tests
         }
 
         [Test]
-        public void DontMutatePreviousRectangles_AfterPutNew()
+        public void NotMove_PreviousPlacedRectangles()
         {
             var putted = PutSomeRectangles(10, minSize:2);
 
@@ -85,10 +85,10 @@ namespace TagsCloudVisualization.Tests
 
         [TestCase(5, 10, 7, 12, TestName = "All dimensions")]
         [TestCase(5, 10, 3, 12, TestName = "Non comparable")]
-        public void ThrowArgumentException_WhenHeightOrderedBySizeDecending(int w1, int h1, int w2, int h2)
+        public void NotThrows_WhenSizesNotOrdered(int w1, int h1, int w2, int h2)
         {
             layouter.PutNextRectangle(new Size(w1, h1));
-            Assert.Throws<ArgumentException>(() => layouter.PutNextRectangle(new Size(w2, h2)));
+            Assert.DoesNotThrow<ArgumentException>(() => layouter.PutNextRectangle(new Size(w2, h2)));
         }
 
         [TestCase(5, 10, 30, 8, TestName = "Non comparable")]
