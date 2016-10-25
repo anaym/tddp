@@ -11,4 +11,4 @@ Tag Cloud Renderer
 -------------
 
 ![Результаты шпоры](examples/sed.JPG "SED tag cloud")
-![100 чисел](examples/numbers.JPG numbers tag cloud")
+![100 чисел](examples/numbers.JPG "numbers tag cloud")
