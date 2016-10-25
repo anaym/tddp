@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Xml;
 using FluentAssertions;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
@@ -59,7 +60,7 @@ namespace TagsCloudVisualization.Tests
             var rnd = new Random(123);
             for (int i = 0; i < count; i++)
             {
-                var size = new Size(rnd.Next(10000), count - i + minSize - 1);
+                var size = new Size(4*(count - i + minSize - 1), 2*(count - i + minSize - 1));
                 var rect = layouter.PutNextRectangle(size);
                 buffer.Add(rect);
             }
@@ -68,7 +69,7 @@ namespace TagsCloudVisualization.Tests
 
         private int GetOuterRectangleArea()
         {
-            return layouter.Rectangles.TangentialRectangle().Size.Area;
+            return layouter.Rectangles.CoveringRectangle().Size.Area;
         }
 
         private int GetTotalAreaOfRectangles()
@@ -79,6 +80,7 @@ namespace TagsCloudVisualization.Tests
             return layouter.Rectangles.Sum(r =>r.Size.Area);
         }
 
+        [Ignore("Because example")]
         [Test]
         public void FailExample()
         {
@@ -87,8 +89,8 @@ namespace TagsCloudVisualization.Tests
         }
 
         [TestCase(0, 0, TestName = "Begin of coordinates")]
-        [TestCase(100500, 10, TestName = "Another point")]
-        public void PutFirstRectangleToCentre(int cx, int cy)
+        [TestCase(100500, 10, TestName = "Other point")]
+        public void PlaceFirstRectangleToCentre_WhenCentrePointIs(int cx, int cy)
         {
             layouter = new CircularCloudLayouter(new Vector(cx, cy));
             var rect = layouter.PutNextRectangle(new Size(100, 20));
@@ -99,27 +101,27 @@ namespace TagsCloudVisualization.Tests
         [Test]
         public void Remember_AllRectanglesSize()
         {
-            var putted = PutSomeRectangles(10).Select(r => r.Size);
+            var put = PutSomeRectangles(10).Select(r => r.Size);
             layouter.Rectangles
                 .Select(r => r.Size)
-                .ShouldAllBeEquivalentTo(putted, o => o.WithStrictOrdering());
+                .ShouldAllBeEquivalentTo(put, o => o.WithStrictOrdering());
         }
 
         [Test]
-        public void NotMove_PreviousPlacedRectangles()
+        public void NotMove_PreviousPutRectangles()
         {
-            var putted = PutSomeRectangles(10, minSize:2);
+            var putRectangles = PutSomeRectangles(10, minSize:2);
 
             layouter.PutNextRectangle(new Size(1, 1));
 
             layouter.Rectangles
                 .Take(10)
-                .ShouldAllBeEquivalentTo(putted, o => o.WithStrictOrdering());
+                .ShouldAllBeEquivalentTo(putRectangles, o => o.WithStrictOrdering());
         }
 
         [TestCase(5, 10, 7, 12, TestName = "All dimensions")]
         [TestCase(5, 10, 3, 12, TestName = "Non comparable")]
-        [TestCase(5, 10, 30, 8, TestName = "Non comparable")]
+        [TestCase(5, 10, 30, 8, TestName = "Non comparable")] //double
         public void NotThrows_WhenSizesNotOrdered(int w1, int h1, int w2, int h2)
         {
             layouter.PutNextRectangle(new Size(w1, h1));
@@ -127,7 +129,17 @@ namespace TagsCloudVisualization.Tests
         }
 
         [Test]
-        public void RectanglesMustNotIntersected_AfterPut()
+        public void PutRectangles_WithCorrectSizeRatio()
+        {
+            PutSomeRectangles(10);
+            var coveringRectangleSize = layouter.Rectangles.CoveringRectangle().Size;
+            var widthPerHeightRatio = 1.0*coveringRectangleSize.Width/coveringRectangleSize.Height;
+            Math.Abs(widthPerHeightRatio - 1.0*layouter.Extension.Y/layouter.Extension.X)
+                .Should().BeLessThan(widthPerHeightRatio);
+        }
+
+        [Test]
+        public void PutRectangles_WithoutIntersection()
         {
             PutSomeRectangles(100);
             layouter
@@ -138,10 +150,11 @@ namespace TagsCloudVisualization.Tests
         }
 
         [Test]
-        public void TightlyPlaceRectangles()
+        public void PutRectangles_Nearly()
         {
             PutSomeRectangles(10);
-            Math.Abs(GetTotalAreaOfRectangles() - GetOuterRectangleArea()).Should().BeLessThan((int)(0.8 * GetTotalAreaOfRectangles()));
+            Math.Abs(GetTotalAreaOfRectangles() - GetOuterRectangleArea())
+                .Should().BeLessThan((int)(0.8 * GetTotalAreaOfRectangles()));
         }
     }
 }

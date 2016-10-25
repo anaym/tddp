@@ -2,7 +2,7 @@
 using FluentAssertions;
 using NUnit.Framework;
 
-namespace TagsCloudVisualization.Geometry.Test
+namespace TagsCloudVisualization.Geometry.Tests
 {
     [TestFixture]
     public class RectangleExtensions_Should
@@ -17,17 +17,17 @@ namespace TagsCloudVisualization.Geometry.Test
 
 
         [Test]
-        public void ContainsAllRectangles()
+        public void CoverAllRectangles()
         {
-            var trect = rectangles.TangentialRectangle();
-            rectangles.Count(r => !trect.Contains((Rectangle) r, true)).Should().Be(0);
+            var coveringRectangle = rectangles.CoveringRectangle();
+            rectangles.Count(r => !coveringRectangle.Contains((Rectangle) r)).Should().Be(0);
         }
 
         [Test]
-        public void BeEmpty_WhenEmptyEnumeration()
+        public void BeEmpty_ForZeroRectangles()
         {
-            var trect = Enumerable.Empty<Rectangle>().TangentialRectangle();
-            trect.Should().Be(Rectangle.Empty);
+            var coveringRectangle = Enumerable.Empty<Rectangle>().CoveringRectangle();
+            coveringRectangle.Should().Be(Rectangle.Empty);
         }
     }
 }

@@ -54,12 +54,12 @@ namespace TagsCloudVisualization.Geometry
                    new ParallelSegment(Bottom, Top).Contains(other.Y, include);
         }
 
-        public bool Contains(Rectangle other, bool include)
+        public bool Contains(Rectangle other)
         {
-            return Contains(LeftTop, include) && Contains(RightBottom, include);
+            return Contains(other.LeftTop, true) && Contains(other.RightBottom, true);
         }
 
-        public bool Equals(Rectangle other) => Size.Equals(other.Size) && Centre.Equals(other.Centre);
+        public bool Equals(Rectangle other) => Size.Equals(other.Size) && RightTop.Equals(other.RightTop);
         // !CR (krait): Почему тут не учитывается позиция?
         public override int GetHashCode() => LazyHash.GetHashCode(LeftTop, Size);
         public override bool Equals(object obj) => obj is Rectangle && Equals((Rectangle)obj);

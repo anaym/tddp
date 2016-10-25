@@ -9,7 +9,7 @@ namespace TagsCloudVisualization.Geometry
         // !CR (krait): Где тесты на это?
 
         //по-английски это описанный прямоугольник 0_о
-        public static Rectangle TangentialRectangle(this IEnumerable<Rectangle> rectangles)
+        public static Rectangle CoveringRectangle(this IEnumerable<Rectangle> rectangles)
         {
             var minX = int.MaxValue;
             var maxX = int.MinValue;

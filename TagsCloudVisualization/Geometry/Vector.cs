@@ -32,8 +32,6 @@ namespace TagsCloudVisualization
         public static Vector operator -(Vector left, Vector right) => left + -right;
         #endregion
 
-        public int ScalarMul(Vector other) => other.X*X + other.Y*Y;
-
         public bool Equals(Vector other) => other.X == X && other.Y == Y;
         // !CR (krait): Плохой хеш: будет одинаковым у (x, y) и (y, x).
         public override int GetHashCode() => LazyHash.GetHashCode(X, Y);

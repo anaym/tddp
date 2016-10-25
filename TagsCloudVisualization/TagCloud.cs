@@ -45,8 +45,8 @@ namespace TagsCloudVisualization
 
         public IEnumerable<Rectangle> Rectangles => layouter.Rectangles;
         public IEnumerable<KeyValuePair<Rectangle, string>> Tags => rectangleToTag;
-        public Rectangle TagsTangentialRectangle => Tags.Select(t => t.Key).TangentialRectangle();
-        public Rectangle LayoutTangentialRectangle => Rectangles.TangentialRectangle();
+        public Rectangle TagsTangentialRectangle => Tags.Select(t => t.Key).CoveringRectangle();
+        public Rectangle LayoutTangentialRectangle => Rectangles.CoveringRectangle();
 
         private Size GetSize(string tag, int value)
         {
