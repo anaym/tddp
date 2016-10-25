@@ -10,5 +10,5 @@ Tag Cloud Renderer
 Примеры рендеринга
 -------------
 
-![Результаты шпоры](examples/sed.JPG raw=true "SED tag cloud")
-![100 чисел](examples/numbers.JPG raw=true "100 numbers tag cloud")
+![Результаты шпоры](examples/sed.JPG "SED tag cloud")
+![100 чисел](examples/numbers.JPG numbers tag cloud")
