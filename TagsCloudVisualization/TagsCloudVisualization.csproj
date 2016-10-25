@@ -62,18 +62,20 @@
   <ItemGroup>
     <Compile Include="CircularCloudLayouter.cs" />
     <Compile Include="Geometry\Tests\RectangleExtensions_Should.cs" />
+    <Compile Include="Geometry\VectorTransform.cs" />
     <Compile Include="TagCloudRenderer.cs" />
-    <Compile Include="Geometry\Geometry2DrawCastExtension.cs" />
+    <Compile Include="Geometry\Extensions\Geometry2DrawCastExtension.cs" />
     <Compile Include="ICircularCloudLayouter.cs" />
     <Compile Include="TagCloud.cs" />
     <Compile Include="Tests\CircularCloudLayouter.Test.cs" />
-    <Compile Include="Extensions\DictionaryExtension.cs" />
-    <Compile Include="Extensions\LinqExtension.cs" />
+    <Compile Include="Utility\DictionaryExtension.cs" />
+    <Compile Include="Utility\LazyHash.cs" />
+    <Compile Include="Utility\LinqExtension.cs" />
     <Compile Include="Geometry\Tests\Rectangle.Test.cs" />
     <Compile Include="Geometry\Tests\ParallelSegment.Test.cs" />
-    <Compile Include="Geometry\RectangleExtensions.cs" />
+    <Compile Include="Geometry\Extensions\RectangleExtensions.cs" />
     <Compile Include="Geometry\ParallelSegment.cs" />
-    <Compile Include="Geometry\VectorExtensions.cs" />
+    <Compile Include="Geometry\Extensions\VectorExtensions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Geometry\Size.cs" />
     <Compile Include="Geometry\Rectangle.cs" />

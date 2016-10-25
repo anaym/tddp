@@ -10,13 +10,6 @@ namespace TagsCloudVisualization.Geometry.Test
     [TestFixture]
     public class Rectangle_Should
     {
-        [Test]
-        public void CreateCorrect()
-        {
-            var rect = Rectangle.FromRightTop(new Vector(100, 0), new Size(100, 50));
-            rect.Size.Should().Be(new Size(100, 50));
-        }
-
         #region [TestCases]
         [TestCase(0, 0, 100, 0, true, TestName = "Touching on line")]
         [TestCase(0, 0, 100, 50, true, TestName = "Touching on point")]

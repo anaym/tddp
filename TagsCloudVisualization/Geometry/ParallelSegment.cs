@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Security.Cryptography.X509Certificates;
 using NUnit.Framework;
+using TagsCloudVisualization.Utility;
 
 namespace TagsCloudVisualization.Geometry
 {
@@ -33,8 +35,8 @@ namespace TagsCloudVisualization.Geometry
             var b = other.Contains(Left, includeBorder) || other.Contains(Right, includeBorder);
             return a || b;
         }
-        
-        public override int GetHashCode() => (-Left) ^ Right;
+
+        public override int GetHashCode() => LazyHash.GetHashCode(Left, Right);
         public bool Equals(ParallelSegment other) => Left == other.Left && Right == other.Right;
         public override bool Equals(object obj) => obj is ParallelSegment && Equals((ParallelSegment)obj);
         public override string ToString() => $"[{Left}, {Right}]";

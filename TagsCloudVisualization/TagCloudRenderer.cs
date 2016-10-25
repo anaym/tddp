@@ -3,21 +3,22 @@ using System.Drawing;
 using System.Drawing.Text;
 using System.Linq;
 using TagsCloudVisualization.Geometry;
+using TagsCloudVisualization.Geometry.Extensions;
 
 namespace TagsCloudVisualization
 {
     public class TagCloudRenderer
     {
-        // CR (krait): Изменяемые публичные поля выглядят неаккуратно. Лучше принять всё это в конструкторе.
+        // !CR (krait): Изменяемые публичные поля выглядят неаккуратно. Лучше принять всё это в конструкторе.
 
-        public Brush TextBrush;
-        public bool ShowRectangles;
-        public StringFormat StringFormat;
+        public readonly Brush TextBrush;
+        public readonly bool ShowRectangles;
+        public readonly StringFormat StringFormat;
 
-        public TagCloudRenderer()
+        public TagCloudRenderer(bool showRectangles = false, Brush textBrush = null)
         {
-            TextBrush = new SolidBrush(Color.Red);
-            ShowRectangles = false;
+            TextBrush = textBrush ?? new SolidBrush(Color.Red);
+            ShowRectangles = showRectangles;
             StringFormat = new StringFormat
             {
                 Alignment = StringAlignment.Near,
@@ -27,7 +28,7 @@ namespace TagsCloudVisualization
 
         public Bitmap RenderToBitmap(TagCloud tags)
         {
-            var size = tags.TangentialRectangle.Size;
+            var size = (ShowRectangles ? tags.LayoutTangentialRectangle : tags.TagsTangentialRectangle).Size;
             var bitmap = new Bitmap(size.Width, size.Height);
             Render(Graphics.FromImage(bitmap), tags);
             return bitmap;
@@ -35,19 +36,23 @@ namespace TagsCloudVisualization
 
         public void Render(Graphics graphics, TagCloud tagCloud)
         {
-            var tangentialRectangle = tagCloud.TangentialRectangle;
+            var transform = new VectorTransform(ShowRectangles ? tagCloud.LayoutTangentialRectangle : tagCloud.TagsTangentialRectangle);
+            if (ShowRectangles)
+            {
+                foreach (var rectangle in tagCloud.Rectangles)
+                {
+                    var rectF = transform.Transform(rectangle);
+                    graphics.FillRectangle(new SolidBrush(rectangle.Size.ToColor()), rectF);
+                    graphics.DrawRectangle(new Pen(Color.GreenYellow), rectF.X, rectF.Y, rectF.Width, rectF.Height);
+
+                }
+            }
             foreach (var tag in tagCloud.Tags)
             {
-                var rectF = tag.Key.ToRectangleF(tangentialRectangle);
-                if (ShowRectangles)
-                {
-                    graphics.FillRectangle(new SolidBrush(tag.Key.ToColor()), rectF);
-                    graphics.DrawRectangle(new Pen(Color.GreenYellow), rectF.X, rectF.Y, rectF.Width, rectF.Height);
-                }
+                var rectF = transform.Transform(tag.Key);
                 graphics.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
                 var goodFont = FindFont(graphics, tag.Value, rectF.Size, new Font(FontFamily.GenericMonospace, 128));
                 graphics.DrawString(tag.Value, goodFont, TextBrush, rectF, StringFormat);
-
             }
         }
 

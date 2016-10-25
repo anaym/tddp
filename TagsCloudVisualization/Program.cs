@@ -90,22 +90,20 @@ namespace TagsCloudVisualization
                 .Select(p => new KeyValuePair<string, int>($"[{p.Key.Trim()}]", p.Value))
                 .ToDictionary(p => p.Key, p => p.Value);
 
-            var bigData = new Dictionary<string, int>();
             var rnd = new Random();
-            foreach (var i in Enumerable.Range(0, 100))
-            {
-                bigData.Add(i + "_" + rnd.Next() % 256, i);
-            }
+            var bigData = Enumerable.Range(0, 100).ToDictionary(i => i + "_" + rnd.Next()%256);
 
             var layoter = new CircularCloudLayouter(Vector.Zero, new Vector(2, 1));
+            layoter.PutNextRectangle(new Size(200, 100));
 
             var tags = new TagCloud(
                 layoter,
                 new Size(minWidth, (int) (minWidth*charHeightPerWidth)),
                 v => v*(int)Math.Sqrt(v));
 
-            var renderer = new TagCloudRenderer {ShowRectangles = false};
-            tags.PutManyTags(ShporaStatistic);
+            var renderer = new TagCloudRenderer ();
+            tags.PutNextTag("{SMALL}", 0);
+            tags.PutManyTags(bigData);
             renderer.RenderToBitmap(tags).Save(outFileName, ImageFormat.Png);
             Process.Start(outFileName);
         }

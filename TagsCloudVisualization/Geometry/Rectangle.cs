@@ -1,4 +1,7 @@
-﻿namespace TagsCloudVisualization.Geometry
+﻿using NUnit.Framework;
+using TagsCloudVisualization.Utility;
+
+namespace TagsCloudVisualization.Geometry
 {
     // !CR (krait): Стоит сделать структурой. См. комментарий к ParallelSegment.
 
@@ -58,7 +61,7 @@
 
         public bool Equals(Rectangle other) => Size.Equals(other.Size) && Centre.Equals(other.Centre);
         // !CR (krait): Почему тут не учитывается позиция?
-        public override int GetHashCode() => (-Size.GetHashCode()) ^ LeftTop.GetHashCode();
+        public override int GetHashCode() => LazyHash.GetHashCode(LeftTop, Size);
         public override bool Equals(object obj) => obj is Rectangle && Equals((Rectangle)obj);
         public override string ToString() => $"{{{Size} on {Centre}: RT={RightTop}, LB={LeftBottom}}}";
     }

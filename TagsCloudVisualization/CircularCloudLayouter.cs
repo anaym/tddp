@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using TagsCloudVisualization.Extensions;
 using TagsCloudVisualization.Geometry;
+using TagsCloudVisualization.Utility;
 
 namespace TagsCloudVisualization
 {
@@ -37,11 +37,11 @@ namespace TagsCloudVisualization
         { }
 
         public Rectangle PutNextRectangle(Size rectangleSize)
-        {
+        {/*
             if (rectangles.Any() && rectangles.Last().Size.Height < rectangleSize.Height)
             {
                 throw new ArgumentException("Rectangles must be ordered by descending sizes");
-            }
+            }*/
             var rect = Rectangle.FromCentre(Centre, rectangleSize);
             if (rectangles.Any())
             {
@@ -89,6 +89,6 @@ namespace TagsCloudVisualization
             return rectangles.Any(r => r.IsIntersected(testable, false));
         }
 
-        public IEnumerable<Rectangle> GetRectangles() => rectangles;
+        public IEnumerable<Rectangle> Rectangles => rectangles;
     }
 }

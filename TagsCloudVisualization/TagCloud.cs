@@ -9,6 +9,7 @@ namespace TagsCloudVisualization
     {
         private readonly ICircularCloudLayouter layouter;
         private readonly Dictionary<Rectangle, string> rectangleToTag;
+
         public readonly Size MinCharSize;
         public readonly Func<int, int> ValueToHeight;
         public readonly double HeightPerWidth;
@@ -42,8 +43,10 @@ namespace TagsCloudVisualization
             }
         }
 
+        public IEnumerable<Rectangle> Rectangles => layouter.Rectangles;
         public IEnumerable<KeyValuePair<Rectangle, string>> Tags => rectangleToTag;
-        public Rectangle TangentialRectangle => Tags.Select(t => t.Key).TangentialRectangle();
+        public Rectangle TagsTangentialRectangle => Tags.Select(t => t.Key).TangentialRectangle();
+        public Rectangle LayoutTangentialRectangle => Rectangles.TangentialRectangle();
 
         private Size GetSize(string tag, int value)
         {

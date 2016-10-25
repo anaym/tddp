@@ -1,4 +1,5 @@
 ﻿using System;
+using TagsCloudVisualization.Utility;
 
 namespace TagsCloudVisualization.Geometry
 {
@@ -30,7 +31,7 @@ namespace TagsCloudVisualization.Geometry
         }
         public bool Equals(Size other) => Width == other.Width && Height == other.Height;
         // !CR (krait): Плохой хеш: будет одинаковым у (w, h) и (h, w).
-        public override int GetHashCode() => (-Width) ^ Height;
+        public override int GetHashCode() => LazyHash.GetHashCode(Width, Height);
         public override bool Equals(object obj) => obj is Size && ((Size)obj).Equals(this);
         public override string ToString() => $"({Width}, {Height})";
 
