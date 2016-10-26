@@ -1,15 +1,8 @@
 ﻿using System;
-using System.Security.Cryptography.X509Certificates;
-using NUnit.Framework;
 using TagsCloudVisualization.Utility;
 
 namespace TagsCloudVisualization.Geometry
 {
-    // !CR (krait): 
-    // Стоит сделать ParallelSegment структурой:
-    // 1. Все поля immutable.
-    // 2. Суммарный размер полей всего 8 байт, копировать её будет дёшево.
-
     public struct ParallelSegment : IEquatable<ParallelSegment>
     {
         public readonly int Left;
@@ -28,9 +21,10 @@ namespace TagsCloudVisualization.Geometry
 
         public bool IsIntersected(ParallelSegment other, bool includeBorder = true)
         {
-            // !CR (krait): Зачем проверять эти условия до проверки Equals(other)? Если она пройдёт, считать их будет без надобности.
             if (Equals(other))
                 return true;
+
+            // CR (krait): Кажется, от этого разделения теперь нисколько не становится читаемее.
             var a = Contains(other.Left, includeBorder) || Contains(other.Right, includeBorder);
             var b = other.Contains(Left, includeBorder) || other.Contains(Right, includeBorder);
             return a || b;

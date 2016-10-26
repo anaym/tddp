@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 
 namespace TagsCloudVisualization.Geometry
 {
     public static class RectangleExtensions
-    { 
-        // !CR (krait): Где тесты на это?
-
-        //по-английски это описанный прямоугольник 0_о
+    {
         public static Rectangle CoveringRectangle(this IEnumerable<Rectangle> rectangles)
         {
             var minX = int.MaxValue;

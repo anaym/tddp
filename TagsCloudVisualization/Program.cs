@@ -8,9 +8,6 @@ using Size = TagsCloudVisualization.Geometry.Size;
 
 namespace TagsCloudVisualization
 {
-    // !CR (krait): 
-    // В коде много неудачных названий, которые вводят читателя в заблуждение. Некоторые из них я поправил сам, посмотри на такие места и попробуй понять, что было не так.
-
     class Program
     {
         #region Data
@@ -99,8 +96,8 @@ namespace TagsCloudVisualization
 
             var tags = new TagCloud(
                 layoter,
-                new Size(minWidth, (int) (minWidth*charHeightPerWidth)),
-                v => v*(int)Math.Sqrt(v));
+                new Size(minWidth, (int) (minWidth * charHeightPerWidth)),
+                v => v * (int)Math.Sqrt(v));
 
             var renderer = new TagCloudRenderer ();
             tags.PutNextTag("{SMALL}", 0);

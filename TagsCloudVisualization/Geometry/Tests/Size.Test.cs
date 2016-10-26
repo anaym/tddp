@@ -12,12 +12,12 @@ namespace TagsCloudVisualization.Geometry.Tests
         [SetUp]
         public void SetUp()
         {
+            // CR (krait): Два подряд созданных Random'а могут иметь одинаковый сид.
             size = new Size(new Random().Next(0, 100), new Random().Next(0, 100));
         }
 
-
         [Test]
-        public void CalculateArea_Correct()
+        public void CalculateArea_Correctly()
         {
             size.Area.Should().Be(size.Width*size.Height);
         }

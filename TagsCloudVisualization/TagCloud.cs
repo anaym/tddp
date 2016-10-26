@@ -10,9 +10,10 @@ namespace TagsCloudVisualization
         private readonly ICircularCloudLayouter layouter;
         private readonly Dictionary<Rectangle, string> rectangleToTag;
 
+        // CR (krait): Зачем эти штуковины торчат наружу?
         public readonly Size MinCharSize;
         public readonly Func<int, int> ValueToHeight;
-        public readonly double HeightPerWidth;
+        public readonly double HeightToWidthRatio;
 
         public TagCloud(ICircularCloudLayouter layouter, Size minCharSize, Func<int, int> valueToHeight)
         {
@@ -26,7 +27,7 @@ namespace TagsCloudVisualization
                 throw new ArgumentNullException(nameof(valueToHeight));
             if (layouter == null)
                 throw new ArgumentNullException(nameof(layouter));
-            HeightPerWidth = 1.0*minCharSize.Height/minCharSize.Width;
+            HeightToWidthRatio = 1.0 * minCharSize.Height / minCharSize.Width;
         }
 
         public void PutNextTag(string tag, int value)
@@ -51,7 +52,7 @@ namespace TagsCloudVisualization
         private Size GetSize(string tag, int value)
         {
             var height = ValueToHeight(value) + MinCharSize.Height;
-            var width = height*tag.Length/HeightPerWidth + MinCharSize.Width;
+            var width = height * tag.Length / HeightToWidthRatio + MinCharSize.Width;
             return new Size((int) width, height);
         }
     }

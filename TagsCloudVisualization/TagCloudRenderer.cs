@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Drawing.Text;
-using System.Linq;
 using TagsCloudVisualization.Geometry;
 using TagsCloudVisualization.Geometry.Extensions;
 
@@ -9,8 +7,6 @@ namespace TagsCloudVisualization
 {
     public class TagCloudRenderer
     {
-        // !CR (krait): Изменяемые публичные поля выглядят неаккуратно. Лучше принять всё это в конструкторе.
-
         public readonly Brush TextBrush;
         public readonly bool ShowRectangles;
         public readonly StringFormat StringFormat;

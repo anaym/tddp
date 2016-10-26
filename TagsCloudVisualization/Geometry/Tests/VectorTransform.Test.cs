@@ -29,7 +29,7 @@ namespace TagsCloudVisualization.Geometry.Tests
             var ta = transform.Transform(a);
             var tb = transform.Transform(b);
             var delta = new PointF(tb.X - ta.X, tb.Y - ta.Y);
-            ((int) Math.Sqrt(delta.X*delta.X + delta.Y*delta.Y)).Should().Be(a.DistanceTo(b));
+            ((int) Math.Sqrt(delta.X * delta.X + delta.Y * delta.Y)).Should().Be(a.DistanceTo(b));
         }
     }
 }

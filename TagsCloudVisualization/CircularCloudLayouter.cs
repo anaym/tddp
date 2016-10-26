@@ -8,7 +8,6 @@ namespace TagsCloudVisualization
 {
     public class CircularCloudLayouter : ICircularCloudLayouter
     {
-        // !CR (krait): Некрасиво писать приватные поля вперемешку с публичными.
         public readonly Vector Centre;
         public readonly Vector Extension;
 
@@ -23,10 +22,9 @@ namespace TagsCloudVisualization
             rectangles = new List<Rectangle>();
             averageVector = Vector.Zero;
             spots = new HashSet<Vector>();
-
-            // !CR (krait): Зачем делать эту проверку здесь, разве Extension меняется между вызовами PutNextRectangle?
+            
             if (Extension.X == 0 || Extension.Y == 0)
-                // !CR (krait): Это не DivideByZeroException, а ArgumentException. И extension можно вынести в nameof().
+                // CR (krait): Почти, только в nameof попало немного не то.
                 throw new ArgumentException(nameof(Extension));
         }
 
@@ -37,11 +35,7 @@ namespace TagsCloudVisualization
         { }
 
         public Rectangle PutNextRectangle(Size rectangleSize)
-        {/*
-            if (rectangles.Any() && rectangles.Last().Size.Height < rectangleSize.Height)
-            {
-                throw new ArgumentException("Rectangles must be ordered by descending sizes");
-            }*/
+        {
             var rect = Rectangle.FromCentre(Centre, rectangleSize);
             if (rectangles.Any())
             {
@@ -80,13 +74,13 @@ namespace TagsCloudVisualization
 
         private int Aberration(Rectangle rect)
         {
-            var newVector = rect.Centre- Centre + averageVector;
-            return Math.Abs(newVector.X/Extension.X) + Math.Abs(newVector.Y/Extension.Y);
+            var newVector = rect.Centre - Centre + averageVector;
+            return Math.Abs(newVector.X / Extension.X) + Math.Abs(newVector.Y / Extension.Y);
         }
 
-        private bool IsIntersected(Rectangle testable)
+        private bool IsIntersected(Rectangle subject)
         {
-            return rectangles.Any(r => r.IsIntersected(testable, false));
+            return rectangles.Any(r => r.IsIntersected(subject, false));
         }
 
         public IEnumerable<Rectangle> Rectangles => rectangles;

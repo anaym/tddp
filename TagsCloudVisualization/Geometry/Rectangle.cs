@@ -1,18 +1,16 @@
-﻿using NUnit.Framework;
-using TagsCloudVisualization.Utility;
+﻿using TagsCloudVisualization.Utility;
 
 namespace TagsCloudVisualization.Geometry
 {
-    // !CR (krait): Стоит сделать структурой. См. комментарий к ParallelSegment.
-
     public struct Rectangle
     {
         public readonly Size Size;
         public readonly Vector RightTop;
+
         public Vector RightBottom => new Vector(Right, Bottom);
         public Vector LeftTop => new Vector(Left, Top);
         public Vector LeftBottom => new Vector(Left, Bottom);
-        public Vector Centre => RightTop - Size.ToVector()/2;
+        public Vector Centre => RightTop - Size.ToVector() / 2;
 
         public static readonly Rectangle Empty = new Rectangle(Vector.Zero, Size.Empty);
 
@@ -42,10 +40,10 @@ namespace TagsCloudVisualization.Geometry
         public ParallelSegment XProjection => new ParallelSegment(Left, Right);
         public ParallelSegment YProjection => new ParallelSegment(Bottom, Top);
 
-        public bool IsIntersected(Rectangle other, bool includeContur=true)
+        public bool IsIntersected(Rectangle other, bool includeContour=true)
         {
-            return XProjection.IsIntersected(other.XProjection, includeContur) &&
-                   YProjection.IsIntersected(other.YProjection, includeContur);
+            return XProjection.IsIntersected(other.XProjection, includeContour) &&
+                   YProjection.IsIntersected(other.YProjection, includeContour);
         }
 
         public bool Contains(Vector other, bool include)
@@ -60,7 +58,6 @@ namespace TagsCloudVisualization.Geometry
         }
 
         public bool Equals(Rectangle other) => Size.Equals(other.Size) && RightTop.Equals(other.RightTop);
-        // !CR (krait): Почему тут не учитывается позиция?
         public override int GetHashCode() => LazyHash.GetHashCode(LeftTop, Size);
         public override bool Equals(object obj) => obj is Rectangle && Equals((Rectangle)obj);
         public override string ToString() => $"{{{Size} on {Centre}: RT={RightTop}, LB={LeftBottom}}}";
