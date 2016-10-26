@@ -11,7 +11,7 @@ using TagsCloudVisualization.Geometry;
 
 namespace TagsCloudVisualization.Tests
 {
-    // CR (krait): Проблемы с именованием тестов. См. комментарий к ParallelSegment_Should.
+    // !CR (krait): Проблемы с именованием тестов. См. комментарий к ParallelSegment_Should.
 
     [TestFixture]
     public class CircularCloudLayouter_Should
@@ -67,7 +67,7 @@ namespace TagsCloudVisualization.Tests
             return buffer;
         }
 
-        private int GetOuterRectangleArea()
+        private int GetCoveringRectangleArea()
         {
             return layouter.Rectangles.CoveringRectangle().Size.Area;
         }
@@ -153,7 +153,7 @@ namespace TagsCloudVisualization.Tests
         public void PutRectangles_Nearly()
         {
             PutSomeRectangles(10);
-            Math.Abs(GetTotalAreaOfRectangles() - GetOuterRectangleArea())
+            Math.Abs(GetTotalAreaOfRectangles() - GetCoveringRectangleArea())
                 .Should().BeLessThan((int)(0.8 * GetTotalAreaOfRectangles()));
         }
     }

@@ -64,5 +64,29 @@ namespace TagsCloudVisualization.Geometry.Tests
             var res = -vectorA;
             res.Should().Be(new Vector(-vectorA.X, -vectorA.Y));
         }
+
+        [Test]
+        public void HaveEqualHash_WithEqualVector()
+        {
+            var a = new Vector(new Random().Next(10), new Random().Next(10));
+            var b = new Vector(a.X, a.Y);
+            a.GetHashCode().Should().Be(b.GetHashCode());
+        }
+
+        [Test]
+        public void Equal_OtherCreatedFromSameArguments()
+        {
+            var a = new Vector(new Random().Next(10), new Random().Next(10));
+            var b = new Vector(a.X, a.Y);
+            a.Should().Be(b);
+        }
+
+        [Test]
+        public void NotEqual_OtherCreatedFromAnotherArguments()
+        {
+            var a = new Vector(new Random().Next(10), new Random().Next(10));
+            var b = new Vector(a.X, a.Y + 100500);
+            a.Should().NotBe(b);
+        }
     }
 }

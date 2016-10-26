@@ -1,10 +1,10 @@
 ﻿using System;
 using TagsCloudVisualization.Utility;
 
-namespace TagsCloudVisualization
+namespace TagsCloudVisualization.Geometry
 {
     // !CR (krait): Стоит сделать структурой. См. комментарий к ParallelSegment.
-    // CR (krait): Где тесты?
+    // !CR (krait): Где тесты?
 
     public struct Vector : IEquatable<Vector>
     {

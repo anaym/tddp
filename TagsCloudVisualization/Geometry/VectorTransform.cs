@@ -1,4 +1,6 @@
 ﻿using System.Drawing;
+using System.Linq.Expressions;
+using System.Runtime.InteropServices;
 
 namespace TagsCloudVisualization.Geometry
 {

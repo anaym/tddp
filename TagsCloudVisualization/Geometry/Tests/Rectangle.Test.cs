@@ -1,9 +1,10 @@
-﻿using FluentAssertions;
+﻿using System;
+using FluentAssertions;
 using NUnit.Framework;
 
 namespace TagsCloudVisualization.Geometry.Tests
 {
-    // CR (krait): Проблемы с именованием тестов. См. комментарий к ParallelSegment_Should.
+    // !CR (krait): Проблемы с именованием тестов. См. комментарий к ParallelSegment_Should.
 
     // !CR (krait): Где тесты на Contains?
 
@@ -80,6 +81,30 @@ namespace TagsCloudVisualization.Geometry.Tests
             var self = new Rectangle(new Vector(xA, yA), new Size(100, 125));
             var other = new Rectangle(new Vector(xB, yB), new Size(20, 25));
             self.Contains(other).Should().BeFalse();
+        }
+
+        [Test]
+        public void HaveEqualHash_WithEqualRectangle()
+        {
+            var a = new Rectangle(new Random().Next(10), new Random().Next(10), new Random().Next(10), new Random().Next(10));
+            var b = new Rectangle(a.RightTop, a.Size);
+            a.GetHashCode().Should().Be(b.GetHashCode());
+        }
+
+        [Test]
+        public void Equal_OtherCreatedFromSameArguments()
+        {
+            var a = new Rectangle(new Random().Next(10), new Random().Next(10), new Random().Next(10), new Random().Next(10));
+            var b = new Rectangle(a.RightTop, a.Size);
+            a.Should().Be(b);
+        }
+
+        [Test]
+        public void NotEqual_OtherCreatedFromAnotherArguments()
+        {
+            var a = new Rectangle(new Random().Next(10), new Random().Next(10), new Random().Next(10), new Random().Next(10));
+            var b = new Rectangle(a.RightTop, new Size(100500, 234));
+            a.Should().NotBe(b);
         }
     }
 }

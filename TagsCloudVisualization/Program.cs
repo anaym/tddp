@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing.Imaging;
 using System.Linq;
+using TagsCloudVisualization.Geometry;
 using Size = TagsCloudVisualization.Geometry.Size;
 
 namespace TagsCloudVisualization
 {
-    // CR (krait): 
+    // !CR (krait): 
     // В коде много неудачных названий, которые вводят читателя в заблуждение. Некоторые из них я поправил сам, посмотри на такие места и попробуй понять, что было не так.
 
     class Program

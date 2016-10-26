@@ -1,9 +1,10 @@
-﻿using FluentAssertions;
+﻿using System;
+using FluentAssertions;
 using NUnit.Framework;
 
 namespace TagsCloudVisualization.Geometry.Tests
 {
-    // CR (krait): 
+    // !CR (krait): 
     // Проблемы с именованием тестов. 
     // По твоей идее, как я понял, название TestFixture и название теста должны вместе образовывать фразу, задающую свойство, которое должно выполняться. 
     // Однако, это не очень получается: ParallelSegment should intersected when equals - это не по-английски.
@@ -37,7 +38,7 @@ namespace TagsCloudVisualization.Geometry.Tests
         [TestCase(0, 2, 1, false, TestName = "Centre without borders")]
         [TestCase(0, 2, 0, true, TestName = "Left with border")]
         [TestCase(0, 2, 2, true, TestName = "Right with border")]
-        public void ContainsPoint(int left, int right, int point, bool includeBorder)
+        public void ContainsPoint_When(int left, int right, int point, bool includeBorder)
         {
             new ParallelSegment(left, right).Contains(point, includeBorder).Should().BeTrue();
         }
@@ -46,9 +47,33 @@ namespace TagsCloudVisualization.Geometry.Tests
         [TestCase(0, 2, 2, false, TestName = "Right without border")]
         [TestCase(0, 2, -2, true, TestName = "Out with border")]
         [TestCase(0, 2, -2, false, TestName = "Out without border")]
-        public void NotContainsPoint(int left, int right, int point, bool includeBorder)
+        public void NotContainsPoint_When(int left, int right, int point, bool includeBorder)
         {
             new ParallelSegment(left, right).Contains(point, includeBorder).Should().BeFalse();
+        }
+
+        [Test]
+        public void HaveEqualHash_WithEqualSegment()
+        {
+            var a = new ParallelSegment(new Random().Next(10), new Random().Next(10));
+            var b = new ParallelSegment(a.Left, a.Right);
+            a.GetHashCode().Should().Be(b.GetHashCode());
+        }
+
+        [Test]
+        public void Equal_OtherCreatedFromSameArguments()
+        {
+            var a = new ParallelSegment(new Random().Next(10), new Random().Next(10));
+            var b = new ParallelSegment(a.Left, a.Right);
+            a.Should().Be(b);
+        }
+
+        [Test]
+        public void NotEqual_OtherCreatedFromAnotherArguments()
+        {
+            var a = new ParallelSegment(new Random().Next(10), new Random().Next(10));
+            var b = new ParallelSegment(a.Left, 100500 - a.Right);
+            a.Should().NotBe(b);
         }
     }
 }

@@ -28,7 +28,7 @@ namespace TagsCloudVisualization
 
         public Bitmap RenderToBitmap(TagCloud tags)
         {
-            var size = (ShowRectangles ? tags.LayoutTangentialRectangle : tags.TagsTangentialRectangle).Size;
+            var size = (ShowRectangles ? tags.LayoutCoveringRectangle : tags.TagsCoveringRectangle).Size;
             var bitmap = new Bitmap(size.Width, size.Height);
             Render(Graphics.FromImage(bitmap), tags);
             return bitmap;
@@ -36,7 +36,7 @@ namespace TagsCloudVisualization
 
         public void Render(Graphics graphics, TagCloud tagCloud)
         {
-            var transform = new VectorTransform(ShowRectangles ? tagCloud.LayoutTangentialRectangle : tagCloud.TagsTangentialRectangle);
+            var transform = new VectorTransform(ShowRectangles ? tagCloud.LayoutCoveringRectangle : tagCloud.TagsCoveringRectangle);
             if (ShowRectangles)
             {
                 foreach (var rectangle in tagCloud.Rectangles)

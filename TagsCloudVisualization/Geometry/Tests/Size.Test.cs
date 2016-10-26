@@ -27,5 +27,29 @@ namespace TagsCloudVisualization.Geometry.Tests
         {
             Assert.Throws<ArgumentException>(() => new Size(-1, 0));
         }
+
+        [Test]
+        public void HaveEqualHash_WithEqualSize()
+        {
+            var a = new Size(new Random().Next(10), new Random().Next(10));
+            var b = new Size(a.Width, a.Height);
+            a.GetHashCode().Should().Be(b.GetHashCode());
+        }
+
+        [Test]
+        public void Equal_OtherCreatedFromSameArguments()
+        {
+            var a = new Size(new Random().Next(10), new Random().Next(10));
+            var b = new Size(a.Width, a.Height);
+            a.Should().Be(b);
+        }
+
+        [Test]
+        public void NotEqual_OtherCreatedFromAnotherArguments()
+        {
+            var a = new Size(new Random().Next(10), new Random().Next(10));
+            var b = new Size(a.Width, a.Height + 100500);
+            a.Should().NotBe(b);
+        }
     }
 }
