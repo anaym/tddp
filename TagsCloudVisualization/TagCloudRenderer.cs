@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Text;
 using System.Linq;
+using System.Threading;
 using TagsCloudVisualization.Geometry;
 using TagsCloudVisualization.Geometry.Extensions;
 
@@ -31,9 +33,18 @@ namespace TagsCloudVisualization
         public Bitmap RenderToBitmap(TagCloud tags)
         {
             var size = (showRectangles ? tags.LayoutCoveringRectangle : tags.TagsCoveringRectangle).Size;
-            var bitmap = new Bitmap(size.Width, size.Height);
-            Render(Graphics.FromImage(bitmap), tags);
-            return bitmap;
+            try
+            {
+                var bitmap = new Bitmap(size.Width, size.Height);
+                Render(Graphics.FromImage(bitmap), tags);
+                return bitmap;
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Can not creaate bitmap. Too large :(");
+                System.Environment.Exit(1);
+            }
+            return null;
         }
 
         public void Render(Graphics graphics, TagCloud tagCloud)

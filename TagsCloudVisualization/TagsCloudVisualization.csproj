@@ -41,6 +41,10 @@
       <HintPath>..\packages\FluentAssertions.4.15.0\lib\net45\FluentAssertions.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="FluentCommandLineParser, Version=1.4.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentCommandLineParser.1.4.3\lib\net35\FluentCommandLineParser.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="nunit.framework, Version=3.5.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.3.5.0\lib\net45\nunit.framework.dll</HintPath>
       <Private>True</Private>
@@ -66,6 +70,9 @@
     <Compile Include="Geometry\VectorCoordinateSystemConverter.cs" />
     <Compile Include="Geometry\Tests\Vector.Test.cs" />
     <Compile Include="Geometry\Tests\VectorTransform.Test.cs" />
+    <Compile Include="Statistic\GetLines.cs" />
+    <Compile Include="Statistic\Statistic.cs" />
+    <Compile Include="TagCloudTask.cs" />
     <Compile Include="TagCloudRenderer.cs" />
     <Compile Include="Geometry\Extensions\Geometry2DrawCastExtension.cs" />
     <Compile Include="ICircularCloudLayouter.cs" />
