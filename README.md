@@ -1,20 +1,20 @@
 Tag Cloud Renderer
 ===================
 
-В данном проекте реализован функционал рендеринга облака тегов
-К сожалению, временно, теги задаются только программно
+Р’ РґР°РЅРЅРѕРј РїСЂРѕРµРєС‚Рµ СЂРµР°Р»РёР·РѕРІР°РЅ С„СѓРЅРєС†РёРѕРЅР°Р» СЂРµРЅРґРµСЂРёРЅРіР° РѕР±Р»Р°РєР° С‚РµРіРѕРІ
+Рљ СЃРѕР¶Р°Р»РµРЅРёСЋ, РІСЂРµРјРµРЅРЅРѕ, С‚РµРіРё Р·Р°РґР°СЋС‚СЃСЏ С‚РѕР»СЊРєРѕ РїСЂРѕРіСЂР°РјРјРЅРѕ
 
 ----------
 
 
-Примеры рендеринга
+РџСЂРёРјРµСЂС‹ СЂРµРЅРґРµСЂРёРЅРіР°
 -------------
 
-![Результаты шпоры](examples/sed.JPG "SED tag cloud")
-![100 чисел](examples/numbers.JPG "numbers tag cloud")
-![C# текущий проет](examples/this project.jpg "this cs project words tag cloud")
-![C# все проеты](examples/all cs projects.jpg "all cs project words tag cloud")
+![C# С‚РµРєСѓС‰РёР№ РїСЂРѕРµС‚](examples/this project.jpg "this cs project words tag cloud")
+![C# РІСЃРµ РїСЂРѕРµС‚С‹](examples/all cs projects.jpg "all cs project words tag cloud")
 ![C++ cpp-files](examples/cpp.jpg ".cpp")
 ![C++ hpp-files](examples/hpp.jpg ".hpp")
 ![C++ java-files](examples/java.jpg ".java")
-![C++ python](examples/py.jpg ".py")
+![C++ python](examples/python projects.jpg ".py")
+![Р РµР·СѓР»СЊС‚Р°С‚С‹ С€РїРѕСЂС‹](examples/sed.JPG "SED tag cloud")
+![100 С‡РёСЃРµР»](examples/numbers.JPG "numbers tag cloud")
