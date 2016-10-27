@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 namespace TagsCloudVisualization.Geometry.Tests
 {
-    // CR (krait): Тут название класса ни о чём не говорит. Более того, там может быть несколько методов, отвечающих за абсолютно разные вещи. Надо как-то добавить имя метода в имя fixture.
+    // @CR (krait): Тут название класса ни о чём не говорит. Более того, там может быть несколько методов, отвечающих за абсолютно разные вещи. Надо как-то добавить имя метода в имя fixture.
     [TestFixture]
     public class CoveringRectangle_Should
     {

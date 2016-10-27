@@ -4,9 +4,9 @@ namespace TagsCloudVisualization.Geometry.Extensions
 {
     public static class Geometry2DrawCastExtension
     {
-        public static RectangleF Transform(this VectorTransform transform, Rectangle rectangle)
+        public static RectangleF Transform(this VectorCoordinateSystemConverter coordinateSystemConverter, Rectangle rectangle)
         {
-            var a = transform.Transform(rectangle.LeftTop);
+            var a = coordinateSystemConverter.Transform(rectangle.LeftTop);
             return new RectangleF(a.X, a.Y, rectangle.Size.Width, rectangle.Size.Height);
         }
         

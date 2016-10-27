@@ -63,7 +63,7 @@
     <Compile Include="CircularCloudLayouter.cs" />
     <Compile Include="Geometry\Tests\Size.Test.cs" />
     <Compile Include="Geometry\Tests\RectangleExtensions.Test.cs" />
-    <Compile Include="Geometry\VectorTransform.cs" />
+    <Compile Include="Geometry\VectorCoordinateSystemConverter.cs" />
     <Compile Include="Geometry\Tests\Vector.Test.cs" />
     <Compile Include="Geometry\Tests\VectorTransform.Test.cs" />
     <Compile Include="TagCloudRenderer.cs" />

@@ -1,5 +1,8 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Drawing.Text;
+using System.Linq;
 using TagsCloudVisualization.Geometry;
 using TagsCloudVisualization.Geometry.Extensions;
 
@@ -7,15 +10,18 @@ namespace TagsCloudVisualization
 {
     public class TagCloudRenderer
     {
-        public readonly Brush TextBrush;
-        public readonly bool ShowRectangles;
-        public readonly StringFormat StringFormat;
+        private readonly List<Brush> textBrushes;
+        private readonly bool showRectangles;
+        private readonly StringFormat stringFormat;
 
-        public TagCloudRenderer(bool showRectangles = false, Brush textBrush = null)
+        public void AddColor(Color color) => textBrushes.Add(new SolidBrush(color));
+        public void AddManyColor(params Color[] colors) => textBrushes.AddRange(colors.Select(c => new SolidBrush(c)));
+
+        public TagCloudRenderer(bool showRectangles = false)
         {
-            TextBrush = textBrush ?? new SolidBrush(Color.Red);
-            ShowRectangles = showRectangles;
-            StringFormat = new StringFormat
+            textBrushes = new List<Brush> {new SolidBrush(Color.DarkRed)};
+            this.showRectangles = showRectangles;
+            stringFormat = new StringFormat
             {
                 Alignment = StringAlignment.Near,
                 LineAlignment = StringAlignment.Center
@@ -24,7 +30,7 @@ namespace TagsCloudVisualization
 
         public Bitmap RenderToBitmap(TagCloud tags)
         {
-            var size = (ShowRectangles ? tags.LayoutCoveringRectangle : tags.TagsCoveringRectangle).Size;
+            var size = (showRectangles ? tags.LayoutCoveringRectangle : tags.TagsCoveringRectangle).Size;
             var bitmap = new Bitmap(size.Width, size.Height);
             Render(Graphics.FromImage(bitmap), tags);
             return bitmap;
@@ -32,8 +38,8 @@ namespace TagsCloudVisualization
 
         public void Render(Graphics graphics, TagCloud tagCloud)
         {
-            var transform = new VectorCoordinateSystemConverter(ShowRectangles ? tagCloud.LayoutCoveringRectangle : tagCloud.TagsCoveringRectangle);
-            if (ShowRectangles)
+            var transform = new VectorCoordinateSystemConverter(showRectangles ? tagCloud.LayoutCoveringRectangle : tagCloud.TagsCoveringRectangle);
+            if (showRectangles)
             {
                 foreach (var rectangle in tagCloud.Rectangles)
                 {
@@ -43,12 +49,14 @@ namespace TagsCloudVisualization
 
                 }
             }
+            var rnd = new Random();
             foreach (var tag in tagCloud.Tags)
             {
                 var rectF = transform.Transform(tag.Key);
                 graphics.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
                 var goodFont = FindFont(graphics, tag.Value, rectF.Size, new Font(FontFamily.GenericMonospace, 128));
-                graphics.DrawString(tag.Value, goodFont, TextBrush, rectF, StringFormat);
+                var textBrush = textBrushes[rnd.Next(textBrushes.Count)];
+                graphics.DrawString(tag.Value, goodFont, textBrush, rectF, stringFormat);
             }
         }
 

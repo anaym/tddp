@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
@@ -164,11 +165,12 @@ namespace TagsCloudVisualization
             var layoter = new CircularCloudLayouter(Vector.Zero, new Vector(3, 2));
             //layoter.PutNextRectangle(new Size(200, 100));
 
-            var data = LoadFromDir(@"C:\", "cs", onlyLetters:true);
+            var data = LoadFromDir(@"C:\Users\Anton Tolstov\GitHub\sed\tddp", "cs", onlyLetters:true);
 
-            var tags = TagCloud.AsMapping(layoter, 10, 128, data.Max(p => p.Value), data.Min(p => p.Value));
+            var tags = TagCloud.AsMapping(layoter, 32, 256, data.Max(p => p.Value), data.Min(p => p.Value));
 
             var renderer = new TagCloudRenderer ();
+            renderer.AddManyColor(Color.DarkBlue, Color.OrangeRed, Color.DarkGreen);
             //tags.PutNextTag("{SMALL}", 0);
             tags.PutManyTags(data);
             renderer.RenderToBitmap(tags).Save(outFileName, ImageFormat.Png);
