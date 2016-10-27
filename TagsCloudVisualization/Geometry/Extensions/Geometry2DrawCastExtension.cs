@@ -11,5 +11,7 @@ namespace TagsCloudVisualization.Geometry.Extensions
         }
         
         public static Color ToColor(this object obj) => Color.FromArgb(255, Color.FromArgb(obj.GetHashCode()));
+
+        public static TagsCloudVisualization.Geometry.Size ToGeometrySize(this SizeF size) => new TagsCloudVisualization.Geometry.Size((int)size.Width, (int)size.Height);
     }
 }

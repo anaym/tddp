@@ -32,7 +32,7 @@ namespace TagsCloudVisualization
 
         public void Render(Graphics graphics, TagCloud tagCloud)
         {
-            var transform = new VectorTransform(ShowRectangles ? tagCloud.LayoutCoveringRectangle : tagCloud.TagsCoveringRectangle);
+            var transform = new VectorCoordinateSystemConverter(ShowRectangles ? tagCloud.LayoutCoveringRectangle : tagCloud.TagsCoveringRectangle);
             if (ShowRectangles)
             {
                 foreach (var rectangle in tagCloud.Rectangles)

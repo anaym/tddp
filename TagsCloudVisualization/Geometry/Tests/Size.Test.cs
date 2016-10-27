@@ -12,8 +12,9 @@ namespace TagsCloudVisualization.Geometry.Tests
         [SetUp]
         public void SetUp()
         {
-            // CR (krait): Два подряд созданных Random'а могут иметь одинаковый сид.
-            size = new Size(new Random().Next(0, 100), new Random().Next(0, 100));
+            // !CR (krait): Два подряд созданных Random'а могут иметь одинаковый сид.
+            var rnd = new Random();
+            size = new Size(rnd.Next(0, 100), rnd.Next(0, 100));
         }
 
         [Test]

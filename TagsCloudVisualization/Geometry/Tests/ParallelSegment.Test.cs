@@ -4,42 +4,37 @@ using NUnit.Framework;
 
 namespace TagsCloudVisualization.Geometry.Tests
 {
-    // CR (krait): Поправь имена в соответствии с грамматикой английского языка. Примеры в других файлах с тестами.
+    // !CR (krait): Поправь имена в соответствии с грамматикой английского языка. Примеры в других файлах с тестами.
     [TestFixture]
     public class ParallelSegment_Should
     {
-        [TestCase(0, 1, 1, 2, true, TestName = "Touching")]
-        [TestCase(1, 2, 0, 1, true, TestName = "Reverse touching")]
-        [TestCase(0, 2, 1, 3, true, TestName = "Overlap")]
-        [TestCase(0, 2, 1, 3, false, TestName = "Overlap without include border")]
-        [TestCase(0, 1, 0, 1, false, TestName = "Equals without include border")]
-        [TestCase(0, 2, 0, 2, true, TestName = "Equals")]
-        public void Intersected_When(int leftA, int rightA, int leftB, int rightB, bool includeBorder)
+        [TestCase(0, 1, 1, 2, true, TestName = "other parallel segment in point")]
+        [TestCase(0, 2, 1, 3, true, TestName = "other parallel segment in segment")]
+        [TestCase(0, 2, 1, 3, false, TestName = "other parallel segment in segment, when excluding border")]
+        [TestCase(0, 2, 0, 2, true, TestName = "equal rectangle")]
+        [TestCase(0, 1, 0, 1, false, TestName = "equal rectangle, excluding border")]
+        public void Intersected_With(int leftA, int rightA, int leftB, int rightB, bool includeBorder)
         {
             new ParallelSegment(leftA, rightA).IsIntersected(new ParallelSegment(leftB, rightB), includeBorder).Should().BeTrue();
         }
 
-        [TestCase(0, 1, -1, -2, true, TestName = "Spaced")]
-        [TestCase(0, 1, 1, 2, false, TestName = "Touching without include border")]
-        [TestCase(1, 2, 0, 1, false, TestName = "Reverse touching without include border")]
-        public void NotIntersected_When(int leftA, int rightA, int leftB, int rightB, bool includeBorder)
+        [TestCase(0, 1, -1, -2, true, TestName = "remote rectangle")]
+        [TestCase(0, 1, 1, 2, false, TestName = "other parallel segment in point, when excluding border")]
+        public void NotIntersected_With(int leftA, int rightA, int leftB, int rightB, bool includeBorder)
         {
             new ParallelSegment(leftA, rightA).IsIntersected(new ParallelSegment(leftB, rightB), includeBorder).Should().BeFalse();
         }
 
-        [TestCase(0, 2, 1, true, TestName = "Centre with borders")]
-        [TestCase(0, 2, 1, false, TestName = "Centre without borders")]
-        [TestCase(0, 2, 0, true, TestName = "Left with border")]
-        [TestCase(0, 2, 2, true, TestName = "Right with border")]
+        [TestCase(0, 2, 1, true, TestName = "point inside")]
+        [TestCase(0, 2, 1, false, TestName = "point inside, when excluding borders")]
+        [TestCase(0, 2, 0, true, TestName = "point in border")]
         public void ContainsPoint_When(int left, int right, int point, bool includeBorder)
         {
             new ParallelSegment(left, right).Contains(point, includeBorder).Should().BeTrue();
         }
 
-        [TestCase(0, 2, 0, false, TestName = "Left without border")]
-        [TestCase(0, 2, 2, false, TestName = "Right without border")]
-        [TestCase(0, 2, -2, true, TestName = "Out with border")]
-        [TestCase(0, 2, -2, false, TestName = "Out without border")]
+        [TestCase(0, 2, 0, false, TestName = "point in border, when excluding border")]
+        [TestCase(0, 2, -2, true, TestName = "point outside")]
         public void NotContainsPoint_When(int left, int right, int point, bool includeBorder)
         {
             new ParallelSegment(left, right).Contains(point, includeBorder).Should().BeFalse();

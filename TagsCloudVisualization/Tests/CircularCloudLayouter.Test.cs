@@ -13,34 +13,30 @@ namespace TagsCloudVisualization.Tests
     [TestFixture]
     public class CircularCloudLayouter_Should
     {
+        #region Service
         private CircularCloudLayouter layouter;
-        // CR (krait): Можно и поконкретнее назвать.
-        private static readonly string DirPath;
+        // !CR (krait): Можно и поконкретнее назвать.
+        private string failureLogDirectoryPath;
 
-        // CR (krait): Для этого есть TestFixtureSetUp.
-        static CircularCloudLayouter_Should()
+        // !CR (krait): Для этого есть TestFixtureSetUp.
+        [OneTimeSetUp]
+        public void FailureLoggingSetup()
         {
-            DirPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "fails out");
-            if (Directory.Exists(DirPath))
-                Directory.Delete(DirPath, true);
-            Directory.CreateDirectory(DirPath);
+            failureLogDirectoryPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "fails out");
+            if (Directory.Exists(failureLogDirectoryPath))
+                Directory.Delete(failureLogDirectoryPath, true);
+            Directory.CreateDirectory(failureLogDirectoryPath);
         }
 
-        [SetUp]
-        public void SetUp()
-        {
-            layouter = new CircularCloudLayouter();
-        }
-
-        // CR (krait): Это не всегда Failure(), а только если Status == TestStatus.Failed. 
+        // !CR (krait): Это не всегда FailureLogging(), а только если Status == TestStatus.Failed. 
         [TearDown]
-        public void Failure()
+        public void FailureLogging()
         {
             if (TestContext.CurrentContext.Result.Outcome.Status == TestStatus.Failed)
             {
                 try
                 {
-                    var filePath = Path.Combine(DirPath, TestContext.CurrentContext.Test.FullName) + ".png";
+                    var filePath = Path.Combine(failureLogDirectoryPath, TestContext.CurrentContext.Test.FullName) + ".png";
                     var cloud = new TagCloud(layouter, new Size(8, 16), i => i);
                     var renderer = new TagCloudRenderer(true);
                     renderer.RenderToBitmap(cloud).Save(filePath, ImageFormat.Png);
@@ -52,6 +48,12 @@ namespace TagsCloudVisualization.Tests
                 }
 
             }
+        }
+
+        [SetUp]
+        public void SetUp()
+        {
+            layouter = new CircularCloudLayouter();
         }
 
         private List<Rectangle> PutSomeRectangles(int count, int minSize = 1)
@@ -79,6 +81,7 @@ namespace TagsCloudVisualization.Tests
 
             return layouter.Rectangles.Sum(r => r.Size.Area);
         }
+        #endregion
 
         [Ignore("Because example")]
         [Test]
@@ -86,8 +89,8 @@ namespace TagsCloudVisualization.Tests
         {
             PutSomeRectangles(10);
 
-            // CR (krait): Изящно. Хотя для этого есть Assert.Fail()
-            false.Should().BeTrue();
+            // !CR (krait): Изящно. Хотя для этого есть Assert.Fail()
+            Assert.Fail("Example :)");
         }
 
         [TestCase(0, 0, TestName = "Center of coordinates")]
@@ -105,8 +108,8 @@ namespace TagsCloudVisualization.Tests
             var put = PutSomeRectangles(10).Select(r => r.Size);
             layouter.Rectangles
                 .Select(r => r.Size)
-                // CR (krait): Кажется, можно попроще: .Should().Equal(put)
-                .ShouldAllBeEquivalentTo(put, o => o.WithStrictOrdering());
+                .Should().Equal(put);
+                // !CR (krait): Кажется, можно попроще: .Should().Equal(put)
         }
 
         [Test]
@@ -122,9 +125,9 @@ namespace TagsCloudVisualization.Tests
         }
 
         [TestCase(5, 10, 7, 12, TestName = "All dimensions")]
-        [TestCase(5, 10, 3, 12, TestName = "Non comparable")]
-        // CR (krait): Хотя бы Non comparable 2 назови, чтоб они хоть как-то отличались :)
-        [TestCase(5, 10, 30, 8, TestName = "Non comparable")] //double
+        [TestCase(5, 10, 3, 12, TestName = "Width ordered")]
+        // !CR (krait): Хотя бы Non comparable 2 назови, чтоб они хоть как-то отличались :)
+        [TestCase(5, 10, 30, 8, TestName = "Height ordered")] //double
         public void NotThrow_WhenSizesAreNotOrdered(int w1, int h1, int w2, int h2)
         {
             layouter.PutNextRectangle(new Size(w1, h1));
@@ -148,9 +151,8 @@ namespace TagsCloudVisualization.Tests
             layouter
                 .Rectangles
                 .Where(r => layouter.Rectangles.All(o => o.IsIntersected(r, false) && !o.Equals(r)))
-                .ToList()
-                // CR (krait): .Should().BeEmpty()
-                .ShouldAllBeEquivalentTo(Enumerable.Empty<Rectangle>());
+                .Should().BeEmpty();
+                // !CR (krait): .Should().BeEmpty()
         }
 
         [Test]

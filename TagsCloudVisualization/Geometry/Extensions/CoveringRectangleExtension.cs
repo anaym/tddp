@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace TagsCloudVisualization.Geometry
 {
-    public static class RectangleExtensions
+    public static class CoveringRectangleExtension
     {
         public static Rectangle CoveringRectangle(this IEnumerable<Rectangle> rectangles)
         {

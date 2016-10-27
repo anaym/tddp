@@ -24,10 +24,10 @@ namespace TagsCloudVisualization.Geometry
             if (Equals(other))
                 return true;
 
-            // CR (krait): Кажется, от этого разделения теперь нисколько не становится читаемее.
-            var a = Contains(other.Left, includeBorder) || Contains(other.Right, includeBorder);
-            var b = other.Contains(Left, includeBorder) || other.Contains(Right, includeBorder);
-            return a || b;
+            // !CR (krait): Кажется, от этого разделения теперь нисколько не становится читаемее.
+            var thisContainsOtherPoints = Contains(other.Left, includeBorder) || Contains(other.Right, includeBorder);
+            var otherContainsThisPoints = other.Contains(Left, includeBorder) || other.Contains(Right, includeBorder);
+            return thisContainsOtherPoints || otherContainsThisPoints;
         }
 
         public override int GetHashCode() => LazyHash.GetHashCode(Left, Right);

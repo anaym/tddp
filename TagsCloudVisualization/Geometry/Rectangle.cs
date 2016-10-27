@@ -40,16 +40,16 @@ namespace TagsCloudVisualization.Geometry
         public ParallelSegment XProjection => new ParallelSegment(Left, Right);
         public ParallelSegment YProjection => new ParallelSegment(Bottom, Top);
 
-        public bool IsIntersected(Rectangle other, bool includeContour=true)
+        public bool IsIntersected(Rectangle other, bool includeBorder=true)
         {
-            return XProjection.IsIntersected(other.XProjection, includeContour) &&
-                   YProjection.IsIntersected(other.YProjection, includeContour);
+            return XProjection.IsIntersected(other.XProjection, includeBorder) &&
+                   YProjection.IsIntersected(other.YProjection, includeBorder);
         }
 
-        public bool Contains(Vector other, bool include)
+        public bool Contains(Vector other, bool includeBorder)
         {
-            return new ParallelSegment(Left, Right).Contains(other.X, include) &&
-                   new ParallelSegment(Bottom, Top).Contains(other.Y, include);
+            return new ParallelSegment(Left, Right).Contains(other.X, includeBorder) &&
+                   new ParallelSegment(Bottom, Top).Contains(other.Y, includeBorder);
         }
 
         public bool Contains(Rectangle other)

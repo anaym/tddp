@@ -23,9 +23,11 @@ namespace TagsCloudVisualization
             averageVector = Vector.Zero;
             spots = new HashSet<Vector>();
             
-            if (Extension.X == 0 || Extension.Y == 0)
-                // CR (krait): Почти, только в nameof попало немного не то.
-                throw new ArgumentException(nameof(Extension));
+            if (Extension.X <= 0)
+                // !CR (krait): Почти, только в nameof попало немного не то.
+                throw new ArgumentException(nameof(Extension.X));
+            if (Extension.Y <= 0)
+                throw new ArgumentException(nameof(Extension.Y));
         }
 
         public CircularCloudLayouter(Vector centre) : this(centre, new Vector(2, 1))

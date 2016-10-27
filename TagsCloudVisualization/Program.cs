@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using TagsCloudVisualization.Geometry;
 using Size = TagsCloudVisualization.Geometry.Size;
@@ -78,10 +79,79 @@ namespace TagsCloudVisualization
 
         #endregion
 
+
+        public static Dictionary<string, int> LoadFromDir(string pathToDir, string extension, int count = 100,
+            bool onlyLetters = false)
+        {
+            var now = new DirectoryInfo(pathToDir);
+            var files = new List<FileInfo>();
+            var mustVisit = new Queue<DirectoryInfo>(new[] {now});
+            while (mustVisit.Count != 0)
+            {
+                now = mustVisit.Dequeue();
+                try
+                {
+                    foreach (var folder in now.GetDirectories()) mustVisit.Enqueue(folder);
+                }
+                catch (Exception)
+                {
+                }
+                try
+                {
+                    files.AddRange(now.GetFiles());
+                }
+                catch (Exception)
+                {
+                }
+            }
+            var stat = new Dictionary<string, int>();
+            foreach (var file in files.Where(f => f.Name.EndsWith(extension)))
+            {
+                try
+                {
+                    LoadData(file, stat, onlyLetters: onlyLetters);
+
+                }
+                catch (Exception)
+                { }
+            }
+            return stat
+                .OrderByDescending(p => p.Value)
+                .Take(count)
+                .ToDictionary(p => p.Key, p => p.Value);
+        }
+
+        public static Dictionary<string, int> LoadData(FileInfo file, Dictionary<string, int> begin = null, int? count = null, bool onlyLetters = false)
+        {
+            var separators = new[]
+            {
+                '.', ',', '!', '?', ':', ';',
+                '[', ']', '{', '}', '(', ')', '<', '>',
+                '-', '_', '=', '+', '^',
+                '@', '#', '$', '%', '^', '&', '*',
+                '\"', '\'', '~', '`',
+                '\\', '|', '/',
+                '\t', ' ', '\r', '\n'
+            };
+            var words = File.ReadAllLines(file.FullName)
+                .SelectMany(l => l.Split(separators, StringSplitOptions.RemoveEmptyEntries));
+            var stat = begin ?? new Dictionary<string, int>();
+            if (onlyLetters) words = words.Where(w => w.All(char.IsLetter));
+            foreach (var word in words)
+            {
+                if (!stat.ContainsKey(word)) stat[word] = 0;
+                stat[word]++;
+            }
+            if (count == null)
+                return stat;
+            return stat
+                .OrderByDescending(p => p.Value)
+                .Take(count.Value)
+                .ToDictionary(p => p.Key, p => p.Value);
+        }
+
         static void Main(string[] args)
         {
-            var charHeightPerWidth = 2;
-            var minWidth = 32;
             var outFileName = "out.png";
 
             ShporaStatistic = ShporaStatistic
@@ -91,17 +161,16 @@ namespace TagsCloudVisualization
             var rnd = new Random();
             var bigData = Enumerable.Range(0, 100).ToDictionary(i => i + "_" + rnd.Next()%256);
 
-            var layoter = new CircularCloudLayouter(Vector.Zero, new Vector(2, 1));
-            layoter.PutNextRectangle(new Size(200, 100));
+            var layoter = new CircularCloudLayouter(Vector.Zero, new Vector(3, 2));
+            //layoter.PutNextRectangle(new Size(200, 100));
 
-            var tags = new TagCloud(
-                layoter,
-                new Size(minWidth, (int) (minWidth * charHeightPerWidth)),
-                v => v * (int)Math.Sqrt(v));
+            var data = LoadFromDir(@"C:\", "cs", onlyLetters:true);
+
+            var tags = TagCloud.AsMapping(layoter, 10, 128, data.Max(p => p.Value), data.Min(p => p.Value));
 
             var renderer = new TagCloudRenderer ();
-            tags.PutNextTag("{SMALL}", 0);
-            tags.PutManyTags(bigData);
+            //tags.PutNextTag("{SMALL}", 0);
+            tags.PutManyTags(data);
             renderer.RenderToBitmap(tags).Save(outFileName, ImageFormat.Png);
             Process.Start(outFileName);
         }
