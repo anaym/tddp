@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace TagsCloudVisualization.Geometry
+namespace TagsCloudVisualization.Geometry.Extensions
 {
     public static class CoveringRectangleExtension
     {

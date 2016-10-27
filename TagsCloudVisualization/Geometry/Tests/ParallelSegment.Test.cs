@@ -4,6 +4,7 @@ using NUnit.Framework;
 
 namespace TagsCloudVisualization.Geometry.Tests
 {
+    // CR (krait): Не вышло, попробуй ещё раз. Обрати внимание также на имена самих тестов, а не только кейсов.
     // !CR (krait): Поправь имена в соответствии с грамматикой английского языка. Примеры в других файлах с тестами.
     [TestFixture]
     public class ParallelSegment_Should

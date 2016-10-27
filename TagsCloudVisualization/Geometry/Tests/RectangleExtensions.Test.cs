@@ -1,10 +1,11 @@
 ﻿using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
+using TagsCloudVisualization.Geometry.Extensions;
 
 namespace TagsCloudVisualization.Geometry.Tests
 {
-    // @CR (krait): Тут название класса ни о чём не говорит. Более того, там может быть несколько методов, отвечающих за абсолютно разные вещи. Надо как-то добавить имя метода в имя fixture.
+    // CR (krait): Нехорошо, что имя файла так отличается от имени класса. Можно сделать что-то вроде RectangleExtensions_CoveringRectangle_Should
     [TestFixture]
     public class CoveringRectangle_Should
     {

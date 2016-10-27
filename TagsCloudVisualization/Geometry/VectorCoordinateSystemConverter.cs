@@ -2,7 +2,6 @@
 
 namespace TagsCloudVisualization.Geometry
 {
-    // !CR (krait): Слишком общее название, ни за что не догадаешься, что тут происходит, пока не прочитаешь.
     public class VectorCoordinateSystemConverter
     {
         public readonly Rectangle FrameRectangle;

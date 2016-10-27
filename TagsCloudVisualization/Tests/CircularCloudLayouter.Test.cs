@@ -7,6 +7,7 @@ using FluentAssertions;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 using TagsCloudVisualization.Geometry;
+using TagsCloudVisualization.Geometry.Extensions;
 
 namespace TagsCloudVisualization.Tests
 {
@@ -15,10 +16,8 @@ namespace TagsCloudVisualization.Tests
     {
         #region Service
         private CircularCloudLayouter layouter;
-        // !CR (krait): Можно и поконкретнее назвать.
         private string failureLogDirectoryPath;
-
-        // !CR (krait): Для этого есть TestFixtureSetUp.
+        
         [OneTimeSetUp]
         public void FailureLoggingSetup()
         {
@@ -27,8 +26,7 @@ namespace TagsCloudVisualization.Tests
                 Directory.Delete(failureLogDirectoryPath, true);
             Directory.CreateDirectory(failureLogDirectoryPath);
         }
-
-        // !CR (krait): Это не всегда FailureLogging(), а только если Status == TestStatus.Failed. 
+        
         [TearDown]
         public void FailureLogging()
         {
@@ -88,8 +86,7 @@ namespace TagsCloudVisualization.Tests
         public void FailExample()
         {
             PutSomeRectangles(10);
-
-            // !CR (krait): Изящно. Хотя для этого есть Assert.Fail()
+            
             Assert.Fail("Example :)");
         }
 
@@ -109,7 +106,6 @@ namespace TagsCloudVisualization.Tests
             layouter.Rectangles
                 .Select(r => r.Size)
                 .Should().Equal(put);
-                // !CR (krait): Кажется, можно попроще: .Should().Equal(put)
         }
 
         [Test]
@@ -126,7 +122,6 @@ namespace TagsCloudVisualization.Tests
 
         [TestCase(5, 10, 7, 12, TestName = "All dimensions")]
         [TestCase(5, 10, 3, 12, TestName = "Width ordered")]
-        // !CR (krait): Хотя бы Non comparable 2 назови, чтоб они хоть как-то отличались :)
         [TestCase(5, 10, 30, 8, TestName = "Height ordered")] //double
         public void NotThrow_WhenSizesAreNotOrdered(int w1, int h1, int w2, int h2)
         {
@@ -152,7 +147,6 @@ namespace TagsCloudVisualization.Tests
                 .Rectangles
                 .Where(r => layouter.Rectangles.All(o => o.IsIntersected(r, false) && !o.Equals(r)))
                 .Should().BeEmpty();
-                // !CR (krait): .Should().BeEmpty()
         }
 
         [Test]

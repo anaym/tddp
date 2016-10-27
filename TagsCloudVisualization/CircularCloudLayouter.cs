@@ -22,9 +22,9 @@ namespace TagsCloudVisualization
             rectangles = new List<Rectangle>();
             averageVector = Vector.Zero;
             spots = new HashSet<Vector>();
-            
+
+            // CR (krait): -_- Да не в этом дело. Ты кидаешь ArgumentException, а Extension - не аргумент, а поле класса. Аргумент по-другому называется. Делить проверку на две не надо.
             if (Extension.X <= 0)
-                // !CR (krait): Почти, только в nameof попало немного не то.
                 throw new ArgumentException(nameof(Extension.X));
             if (Extension.Y <= 0)
                 throw new ArgumentException(nameof(Extension.Y));

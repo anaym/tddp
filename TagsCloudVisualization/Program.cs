@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.IO;
 using System.Linq;
 using Fclp;
 using TagsCloudVisualization.Geometry;
-using Size = TagsCloudVisualization.Geometry.Size;
 
 namespace TagsCloudVisualization
 {
@@ -16,8 +12,6 @@ namespace TagsCloudVisualization
     {
         static void Main(string[] args)
         {
-            
-
             var commandLineParser = new FluentCommandLineParser<TagCloudTask>();
 
             commandLineParser
@@ -81,7 +75,7 @@ namespace TagsCloudVisualization
             var layoter = new CircularCloudLayouter(Vector.Zero, new Vector(3, 2));
             var tags = TagCloud.AsMapping(layoter, task.MinWordHeight, task.MaxWordWidth, data.Max(p => p.Value), data.Min(p => p.Value));
             var renderer = new TagCloudRenderer (task.RenderBackgroundRectangles);
-            renderer.AddManyColor(Color.DarkBlue, Color.OrangeRed, Color.DarkGreen);
+            renderer.AddManyColors(Color.DarkBlue, Color.OrangeRed, Color.DarkGreen);
             tags.PutManyTags(data);
             renderer.RenderToBitmap(tags).Save(task.OutFileName, ImageFormat.Png);
             Process.Start(task.OutFileName);

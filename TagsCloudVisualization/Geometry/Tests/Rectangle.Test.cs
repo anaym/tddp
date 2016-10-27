@@ -1,6 +1,7 @@
 ﻿using System;
 using FluentAssertions;
 using NUnit.Framework;
+using TagsCloudVisualization.Geometry.Extensions;
 
 namespace TagsCloudVisualization.Geometry.Tests
 {
@@ -8,23 +9,21 @@ namespace TagsCloudVisualization.Geometry.Tests
     public class Rectangle_Should
     {
         #region [TestCases]
-
-        // !CR (krait): Названия кейсов всё ещё непонятные.
-
+        
         [TestCase(0, 0, 100, 0, true, TestName = "another rectangle in one line")]
         [TestCase(0, 0, 100, 50, true, TestName = "another rectangle in one point")]
 
         [TestCase(0, 0, 0, 0, true, TestName = "equal rectangle")]
         [TestCase(110, 10, 0, 0, true, 2, TestName = "nested rectangle")]
 
-        [TestCase(0, 0, 50, 0, true, TestName = "another rectangle in rectangle (Shift in x only)")]
-        [TestCase(0, 0, 50, 10, true, TestName = "another rectangle in rectangle (Shift in x and y)")]
+        [TestCase(0, 0, 50, 0, true, TestName = "another rectangle in rectangle (Shift by x only)")]
+        [TestCase(0, 0, 50, 10, true, TestName = "another rectangle in rectangle (Shift by x and y)")]
 
         [TestCase(0, 0, 0, 0, false, TestName = "equal rectangle, when excluding border")]
         [TestCase(110, 10, 0, 0, false, 2, TestName = "nested rectangle, when excluding border")]
 
-        [TestCase(0, 0, 50, 0, false, TestName = "another rectangle in rectangle (Shift in x only), when excluding border")]
-        [TestCase(0, 0, 50, 10, false, TestName = "another rectangle in rectangle (Shift in x and y), when excluding border")]
+        [TestCase(0, 0, 50, 0, false, TestName = "another rectangle in rectangle (Shift by x only), when excluding border")]
+        [TestCase(0, 0, 50, 10, false, TestName = "another rectangle in rectangle (Shift by x and y), when excluding border")]
 
         #endregion
         public void BeIntersected_With(int xA, int yA, int xB, int yB, bool includeContour, int scaleA = 1)
@@ -36,8 +35,6 @@ namespace TagsCloudVisualization.Geometry.Tests
         }
 
         #region [TestCases]
-
-        // !CR (krait): Названия кейсов всё ещё непонятные.
 
         [TestCase(0, 0, 100, 0, false, TestName = "another rectangle in one line, when excluding border")]
         [TestCase(0, 0, 100, 50, false, TestName = "another rectangle in one point, when excluding border")]
@@ -53,8 +50,7 @@ namespace TagsCloudVisualization.Geometry.Tests
                 .IsIntersected(Rectangle.FromRightTop(new Vector(xB, yB), size), includeContour)
                 .Should().BeFalse();
         }
-
-        // !CR (krait): Вообще границу геометрической фигуры принято называть border.
+        
         [TestCase(-10, -20, false, TestName = "point inside rectangle, when excluding border")]
         [TestCase(0, 0, true, TestName = "point in rectangle`s border")]
         public void ContainPoint_With(int x, int y, bool includeBorder)

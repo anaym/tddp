@@ -23,11 +23,10 @@ namespace TagsCloudVisualization.Geometry
         {
             if (Equals(other))
                 return true;
-
-            // !CR (krait): Кажется, от этого разделения теперь нисколько не становится читаемее.
-            var thisContainsOtherPoints = Contains(other.Left, includeBorder) || Contains(other.Right, includeBorder);
-            var otherContainsThisPoints = other.Contains(Left, includeBorder) || other.Contains(Right, includeBorder);
-            return thisContainsOtherPoints || otherContainsThisPoints;
+            
+            var thisContainsPointsOfOther = Contains(other.Left, includeBorder) || Contains(other.Right, includeBorder);
+            var otherContainsPointsOfThis = other.Contains(Left, includeBorder) || other.Contains(Right, includeBorder);
+            return thisContainsPointsOfOther || otherContainsPointsOfThis;
         }
 
         public override int GetHashCode() => LazyHash.GetHashCode(Left, Right);

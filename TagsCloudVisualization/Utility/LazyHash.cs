@@ -2,14 +2,11 @@
 
 namespace TagsCloudVisualization.Utility
 {
+    // CR (krait): Ну нет, так не пойдёт. Теперь что ли на каждый новый тип аргументов по перегрузке писать?
     public static class LazyHash
     {
         public static int GetHashCode(Object a, Object b) => GetHashCode(a.GetHashCode(), b.GetHashCode());
-
-        // !CR (krait): 
-        // Да, но нет. Когда ты передаёшь сюда int, происходит боксинг и создаётся лишний объект. В такой часто вызываемой функции как GetHashCode это не очень здорово.
-        // Раз уж написал экстеншен, придумай, как его переделать без боксинга.
-        // Про боксинг можно почитать тут: https://msdn.microsoft.com/en-us/library/yz2be5wk.aspx
+        
         public static int GetHashCode(int a, int b)
         {
             unchecked

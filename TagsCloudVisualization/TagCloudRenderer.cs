@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Text;
 using System.Linq;
-using System.Threading;
 using TagsCloudVisualization.Geometry;
 using TagsCloudVisualization.Geometry.Extensions;
 
@@ -17,7 +15,7 @@ namespace TagsCloudVisualization
         private readonly StringFormat stringFormat;
 
         public void AddColor(Color color) => textBrushes.Add(new SolidBrush(color));
-        public void AddManyColor(params Color[] colors) => textBrushes.AddRange(colors.Select(c => new SolidBrush(c)));
+        public void AddManyColors(params Color[] colors) => textBrushes.AddRange(colors.Select(c => new SolidBrush(c)));
 
         public TagCloudRenderer(bool showRectangles = false)
         {

@@ -1,4 +1,5 @@
-﻿using TagsCloudVisualization.Utility;
+﻿using TagsCloudVisualization.Geometry.Extensions;
+using TagsCloudVisualization.Utility;
 
 namespace TagsCloudVisualization.Geometry
 {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TagsCloudVisualization.Geometry
+namespace TagsCloudVisualization.Geometry.Extensions
 {
     public static class VectorExtensions
     {
