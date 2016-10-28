@@ -43,7 +43,7 @@ namespace TagsCloudVisualization.Geometry.Tests
         [TestCase(0, 0, 1000, 50, false, TestName = "remote rectangle, when including border")]
 
         #endregion
-        public void NotBeIntersected_With(int xA, int yA, int xB, int yB, bool includeContour, int scaleA = 1)
+        public void BeNonIntersected_With(int xA, int yA, int xB, int yB, bool includeContour, int scaleA = 1)
         {
             var size = new Size(100, 50);
             Rectangle.FromRightTop(new Vector(xA, yB), (size.ToVector() * scaleA).ToSize())
@@ -51,23 +51,23 @@ namespace TagsCloudVisualization.Geometry.Tests
                 .Should().BeFalse();
         }
         
-        [TestCase(-10, -20, false, TestName = "point inside rectangle, when excluding border")]
+        [TestCase(-10, -20, false, TestName = "point inside rectangle and excluding border")]
         [TestCase(0, 0, true, TestName = "point in rectangle`s border")]
-        public void ContainPoint_With(int x, int y, bool includeBorder)
+        public void ContainsPoint_When(int x, int y, bool includeBorder)
         {
             var self = new Rectangle(new Vector(0, 0), new Size(100, 125));
             self.Contains(new Vector(x, y), includeBorder).Should().BeTrue();
         }
 
         [TestCase(100, -2000, true, TestName = "point outside rectangle")]
-        [TestCase(0, 0, false, TestName = "point in rectangle`s border, when excluding border")]
-        public void NotContainPoint_With(int x, int y, bool includeBorder)
+        [TestCase(0, 0, false, TestName = "point in rectangle`s border and excluding border")]
+        public void NotContainPoint_When(int x, int y, bool includeBorder)
         {
             var self = new Rectangle(new Vector(0, 0), new Size(100, 125));
             self.Contains(new Vector(x, y), includeBorder).Should().BeFalse();
         }
 
-        [TestCase(0, 0, 0, 0, TestName = "other rect is inside this rectangle")]
+        [TestCase(0, 0, 0, 0, TestName = "another rectangle is inside this rectangle")]
         public void ContainOtherRectangle_When(int xA, int yA, int xB, int yB)
         {
             var self = new Rectangle(new Vector(xA, yA), new Size(100, 125));
@@ -75,9 +75,9 @@ namespace TagsCloudVisualization.Geometry.Tests
             self.Contains(other).Should().BeTrue();
         }
 
-        [TestCase(0, 0, 1000, -1000, TestName = "other rect is outside this rectangle")]
-        [TestCase(0, 0, 0, 10, TestName = "other rect is intersected with this rectangle")]
-        public void NotContainOtherRectangle_When(int xA, int yA, int xB, int yB)
+        [TestCase(0, 0, 1000, -1000, TestName = "another rect is outside this rectangle")]
+        [TestCase(0, 0, 0, 10, TestName = "another rect is intersected with this rectangle")]
+        public void NotContainAnotherRectangle_When(int xA, int yA, int xB, int yB)
         {
             var self = new Rectangle(new Vector(xA, yA), new Size(100, 125));
             var other = new Rectangle(new Vector(xB, yB), new Size(20, 25));
@@ -93,7 +93,7 @@ namespace TagsCloudVisualization.Geometry.Tests
         }
 
         [Test]
-        public void Equal_OtherCreatedFromSameArguments()
+        public void Equal_SimilarlyCreatedSegment()
         {
             var a = new Rectangle(new Random().Next(10), new Random().Next(10), new Random().Next(10), new Random().Next(10));
             var b = new Rectangle(a.RightTop, a.Size);
@@ -101,7 +101,7 @@ namespace TagsCloudVisualization.Geometry.Tests
         }
 
         [Test]
-        public void NotEqual_OtherCreatedFromAnotherArguments()
+        public void NotEqual_NotSimilarlyCreatedSegment()
         {
             var a = new Rectangle(new Random().Next(10), new Random().Next(10), new Random().Next(10), new Random().Next(10));
             var b = new Rectangle(a.RightTop, new Size(100500, 234));

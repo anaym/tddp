@@ -8,30 +8,10 @@ using TagsCloudVisualization.Geometry;
 
 namespace TagsCloudVisualization
 {
-    class MyClass : IDisposable
-    {
-        public void Dispose()
-        {
-            Console.WriteLine("Dispose");
-        }
-    }
-
     class Program
     {
-        static MyClass Foo()
-        {
-            using (var c = new MyClass())
-            {
-                return c;
-            }
-        }
-
         static void Main(string[] args)
         {
-            var c = Foo();
-            Console.WriteLine("!");
-            var b = c;
-
             var commandLineParser = new FluentCommandLineParser<TagCloudTask>();
 
             commandLineParser
@@ -41,6 +21,12 @@ namespace TagsCloudVisualization
                 .WithDescription("File source");
 
             commandLineParser
+                .Setup(options => options.Encoding)
+                .As('e', "encoding")
+                .SetDefault(null)
+                .WithDescription("Encoding from read");
+
+            commandLineParser
                 .Setup(options => options.DirectorySource)
                 .As('d', "directory")
                 .SetDefault(null)
@@ -48,9 +34,9 @@ namespace TagsCloudVisualization
 
             commandLineParser
                 .Setup(options => options.ExtensionFilter)
-                .As('e', "extension")
+                .As('t', "type")
                 .SetDefault("")
-                .WithDescription("Extension filter");
+                .WithDescription("Type file filter");
 
             commandLineParser
                 .Setup(options => options.MinWordHeight)
@@ -65,6 +51,18 @@ namespace TagsCloudVisualization
                 .WithDescription("Maximum word height");
 
             commandLineParser
+                .Setup(options => options.MinWordLength)
+                .As('l')
+                .SetDefault(0)
+                .WithDescription("Include letters longer, that num");
+
+            commandLineParser
+                .Setup(options => options.Ratio)
+                .As('r', "ratio")
+                .SetDefault(1.5)
+                .WithDescription("Ratio width per height");
+
+            commandLineParser
                 .Setup(options => options.Count)
                 .As('c', "count")
                 .SetDefault(100)
@@ -72,14 +70,14 @@ namespace TagsCloudVisualization
 
             commandLineParser
                 .Setup(options => options.RenderBackgroundRectangles)
-                .As('r')
+                .As('b')
                 .SetDefault(false)
-                .WithDescription("Render background rectangles");
+                .WithDescription("Show background rectangles");
 
             commandLineParser
                 .Setup(options => options.OutFileName)
                 .As('o', "out")
-                .SetDefault("out.png")
+                .SetDefault($"out_{DateTime.Now.Millisecond}.png")
                 .WithDescription("Out image name");
 
             commandLineParser
@@ -92,9 +90,10 @@ namespace TagsCloudVisualization
             var task = commandLineParser.Object;
             var data = task.CreateStatistic().ToDictionary(p => p.Key, p=> p.Value);
 
-            var layoter = new CircularCloudLayouter(Vector.Zero, new Vector(2, 2));
+            var layoter = new CircularCloudLayouter(Vector.Zero, new Vector((int)(task.Ratio*10), (int)(10 /task.Ratio)));
             var max = data.Count != 0 ? data.Max(p => p.Value) : 1;
             var min = data.Count != 0 ? data.Min(p => p.Value) : 0;
+            if (data.Count == 0) Console.WriteLine("Data is not founded");
             var tags = TagCloud.FromLimits(layoter, task.MinWordHeight, task.MaxWordWidth, max, min);
             var renderer = new TagCloudRenderer (task.RenderBackgroundRectangles);
             renderer.AddManyColors(Color.DarkBlue, Color.OrangeRed, Color.DarkGreen);

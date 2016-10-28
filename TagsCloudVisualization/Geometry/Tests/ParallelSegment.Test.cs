@@ -9,32 +9,32 @@ namespace TagsCloudVisualization.Geometry.Tests
     [TestFixture]
     public class ParallelSegment_Should
     {
-        [TestCase(0, 1, 1, 2, true, TestName = "other parallel segment in point")]
-        [TestCase(0, 2, 1, 3, true, TestName = "other parallel segment in segment")]
-        [TestCase(0, 2, 1, 3, false, TestName = "other parallel segment in segment, when excluding border")]
-        [TestCase(0, 2, 0, 2, true, TestName = "equal rectangle")]
-        [TestCase(0, 1, 0, 1, false, TestName = "equal rectangle, excluding border")]
-        public void Intersected_With(int leftA, int rightA, int leftB, int rightB, bool includeBorder)
+        [TestCase(0, 1, 1, 2, true, TestName = "another segment by point")]
+        [TestCase(0, 2, 1, 3, true, TestName = "another segment by subsegment")]
+        [TestCase(0, 2, 1, 3, false, TestName = "another segment by subsegment, when excluding border")]
+        [TestCase(0, 2, 0, 2, true, TestName = "equal segment")]
+        [TestCase(0, 1, 0, 1, false, TestName = "equal segment, excluding border")]
+        public void BeIntersected_With(int leftA, int rightA, int leftB, int rightB, bool includeBorder)
         {
             new ParallelSegment(leftA, rightA).IsIntersected(new ParallelSegment(leftB, rightB), includeBorder).Should().BeTrue();
         }
 
-        [TestCase(0, 1, -1, -2, true, TestName = "remote rectangle")]
-        [TestCase(0, 1, 1, 2, false, TestName = "other parallel segment in point, when excluding border")]
-        public void NotIntersected_With(int leftA, int rightA, int leftB, int rightB, bool includeBorder)
+        [TestCase(0, 1, -1, -2, true, TestName = "remote segment")]
+        [TestCase(0, 1, 1, 2, false, TestName = "another segment by point, when excluding border")]
+        public void BeNonIntersected_With(int leftA, int rightA, int leftB, int rightB, bool includeBorder)
         {
             new ParallelSegment(leftA, rightA).IsIntersected(new ParallelSegment(leftB, rightB), includeBorder).Should().BeFalse();
         }
 
         [TestCase(0, 2, 1, true, TestName = "point inside")]
-        [TestCase(0, 2, 1, false, TestName = "point inside, when excluding borders")]
+        [TestCase(0, 2, 1, false, TestName = "point inside and excluding borders")]
         [TestCase(0, 2, 0, true, TestName = "point in border")]
         public void ContainsPoint_When(int left, int right, int point, bool includeBorder)
         {
             new ParallelSegment(left, right).Contains(point, includeBorder).Should().BeTrue();
         }
 
-        [TestCase(0, 2, 0, false, TestName = "point in border, when excluding border")]
+        [TestCase(0, 2, 0, false, TestName = "point in border and excluding border")]
         [TestCase(0, 2, -2, true, TestName = "point outside")]
         public void NotContainsPoint_When(int left, int right, int point, bool includeBorder)
         {
@@ -50,7 +50,7 @@ namespace TagsCloudVisualization.Geometry.Tests
         }
 
         [Test]
-        public void Equal_OtherCreatedFromSameArguments()
+        public void Equal_SimilarlyCreatedSegment()
         {
             var a = new ParallelSegment(new Random().Next(10), new Random().Next(10));
             var b = new ParallelSegment(a.Left, a.Right);
@@ -58,7 +58,7 @@ namespace TagsCloudVisualization.Geometry.Tests
         }
 
         [Test]
-        public void NotEqual_OtherCreatedFromAnotherArguments()
+        public void NotEqual_NotSimilarlyCreatedSegment()
         {
             var a = new ParallelSegment(new Random().Next(10), new Random().Next(10));
             var b = new ParallelSegment(a.Left, 100500 - a.Right);

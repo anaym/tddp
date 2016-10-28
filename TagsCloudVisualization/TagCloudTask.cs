@@ -14,17 +14,20 @@ namespace TagsCloudVisualization
         public string OutFileName { get; set; }
         public int Count { get; set; }
         public bool RenderBackgroundRectangles { get; set; }
+        public double Ratio { get; set; }
+        public string Encoding { get; set; }
+        public int MinWordLength { get; set; }
 
         public IEnumerable<KeyValuePair<string, int>> CreateStatistic()
         {
             // !CR (krait): Зачем присваивать это значение, если оно в любом случае не будет использовано?
             IEnumerable<string> src;
-            if (DirectorySource != null) src = GetLines.FromFolder(DirectorySource, ExtensionFilter);
-            else if (FileSource != null) src = GetLines.FromFile(FileSource);
+            if (DirectorySource != null) src = GetLines.FromFolder(DirectorySource, ExtensionFilter, Encoding);
+            else if (FileSource != null) src = GetLines.FromFile(FileSource, Encoding);
             else src = GetLines.FromInputStream();
             return src
                 .ExtractWords(true)
-                .CreateStatistic(Count);
+                .CreateStatistic(Count, MinWordLength);
         }
     }
 }

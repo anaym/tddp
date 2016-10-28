@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 
 namespace TagsCloudVisualization.Statistic
 {
@@ -17,12 +18,12 @@ namespace TagsCloudVisualization.Statistic
             yield break;
         }
 
-        public static IEnumerable<string> FromFile(string fileName)
+        public static IEnumerable<string> FromFile(string fileName, string codeName = null)
         {
-            return File.ReadAllLines(fileName);
+            return File.ReadAllLines(fileName,codeName == null ? Encoding.Default : Encoding.GetEncoding(codeName));
         }
 
-        public static IEnumerable<string> FromFolder(string pathToFolder, string avaibleExtension)
+        public static IEnumerable<string> FromFolder(string pathToFolder, string avaibleExtension, string codeName = null)
         {
             var now = new DirectoryInfo(pathToFolder);
             var mustVisit = new Queue<DirectoryInfo>(new[] { now });
@@ -52,7 +53,7 @@ namespace TagsCloudVisualization.Statistic
             }
             foreach (var file in files)
             {
-                foreach (var line in FromFile(file))
+                foreach (var line in FromFile(file, codeName))
                 {
                     yield return line;
                 }

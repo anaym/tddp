@@ -74,7 +74,7 @@ namespace TagsCloudVisualization.Geometry.Tests
         }
 
         [Test]
-        public void Equal_OtherCreatedFromSameArguments()
+        public void Equal_SimilarlyCreatedSegment()
         {
             var a = new Vector(new Random().Next(10), new Random().Next(10));
             var b = new Vector(a.X, a.Y);
@@ -82,7 +82,7 @@ namespace TagsCloudVisualization.Geometry.Tests
         }
 
         [Test]
-        public void NotEqual_OtherCreatedFromAnotherArguments()
+        public void NotEqual_NotSimilarlyCreatedSegment()
         {
             var a = new Vector(new Random().Next(10), new Random().Next(10));
             var b = new Vector(a.X, a.Y + 100500);

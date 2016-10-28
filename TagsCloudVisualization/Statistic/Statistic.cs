@@ -24,7 +24,7 @@ namespace TagsCloudVisualization.Statistic
             return words.Where(w => !w.IsNullOrWhiteSpace());
         }
 
-        public static IEnumerable<KeyValuePair<string, int>> CreateStatistic(this IEnumerable<string> words, int count)
+        public static IEnumerable<KeyValuePair<string, int>> CreateStatistic(this IEnumerable<string> words, int count, int minLength)
         {
             var stat = new Dictionary<string, int>();
             foreach (var word in words)
@@ -33,6 +33,7 @@ namespace TagsCloudVisualization.Statistic
                 stat[word]++;
             }
             return stat
+                .Where(p => p.Key.Length >= minLength)
                 .OrderByDescending(p => p.Value)
                 .Take(count);
         }

@@ -37,7 +37,7 @@ namespace TagsCloudVisualization.Geometry.Tests
         }
 
         [Test]
-        public void Equal_OtherCreatedFromSameArguments()
+        public void Equal_SimilarlyCreatedSegment()
         {
             var a = new Size(new Random().Next(10), new Random().Next(10));
             var b = new Size(a.Width, a.Height);
@@ -45,7 +45,7 @@ namespace TagsCloudVisualization.Geometry.Tests
         }
 
         [Test]
-        public void NotEqual_OtherCreatedFromAnotherArguments()
+        public void NotEqual_NotSimilarlyCreatedSegment()
         {
             var a = new Size(new Random().Next(10), new Random().Next(10));
             var b = new Size(a.Width, a.Height + 100500);
