@@ -23,11 +23,11 @@ namespace TagsCloudVisualization
             averageVector = Vector.Zero;
             spots = new HashSet<Vector>();
 
-            // CR (krait): -_- Да не в этом дело. Ты кидаешь ArgumentException, а Extension - не аргумент, а поле класса. Аргумент по-другому называется. Делить проверку на две не надо.
-            if (Extension.X <= 0)
-                throw new ArgumentException(nameof(Extension.X));
-            if (Extension.Y <= 0)
-                throw new ArgumentException(nameof(Extension.Y));
+            // !CR (krait): -_- Да не в этом дело. Ты кидаешь ArgumentException, а Extension - не аргумент, а поле класса. Аргумент по-другому называется. Делить проверку на две не надо.
+            if (extension.X <= 0)
+                throw new ArgumentException(nameof(extension.X));
+            if (extension.Y <= 0)
+                throw new ArgumentException(nameof(extension.Y));
         }
 
         public CircularCloudLayouter(Vector centre) : this(centre, new Vector(2, 1))
@@ -44,7 +44,7 @@ namespace TagsCloudVisualization
                 rect = TryInsert(rectangleSize);
             }
             
-            averageVector = averageVector + rect.Centre - Centre;
+            averageVector = rect.Centre + rect.LeftBottom + rect.LeftTop + rect.RightBottom + rect.RightTop - Centre * 5 + averageVector;
             rectangles.Add(rect);
 
             spots.Add(new Vector(rect.Left, rect.Centre.Y));
@@ -76,7 +76,7 @@ namespace TagsCloudVisualization
 
         private int Aberration(Rectangle rect)
         {
-            var newVector = rect.Centre - Centre + averageVector;
+            var newVector = rect.Centre + rect.LeftBottom + rect.LeftTop + rect.RightBottom + rect.RightTop - Centre*5 + averageVector;
             return Math.Abs(newVector.X / Extension.X) + Math.Abs(newVector.Y / Extension.Y);
         }
 

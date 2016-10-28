@@ -5,9 +5,9 @@ using TagsCloudVisualization.Geometry.Extensions;
 
 namespace TagsCloudVisualization.Geometry.Tests
 {
-    // CR (krait): Нехорошо, что имя файла так отличается от имени класса. Можно сделать что-то вроде RectangleExtensions_CoveringRectangle_Should
+    // !CR (krait): Нехорошо, что имя файла так отличается от имени класса. Можно сделать что-то вроде RectangleExtensions_CoveringRectangle_Should
     [TestFixture]
-    public class CoveringRectangle_Should
+    public class RectangleExtensions_CoveringRectangle_Should
     {
         private Rectangle[] rectangles;
 

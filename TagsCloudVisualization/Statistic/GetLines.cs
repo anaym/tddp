@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace TagsCloudVisualization.Statistic
 {
@@ -39,7 +40,7 @@ namespace TagsCloudVisualization.Statistic
                 }
                 try
                 {
-                    foreach (var file in now.GetFiles())
+                    foreach (var file in now.GetFiles().Where(f => f.Name.EndsWith(avaibleExtension)))
                     {
                         files.Add(file.FullName);
                     }

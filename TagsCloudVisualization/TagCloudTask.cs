@@ -17,8 +17,8 @@ namespace TagsCloudVisualization
 
         public IEnumerable<KeyValuePair<string, int>> CreateStatistic()
         {
-            // CR (krait): Зачем присваивать это значение, если оно в любом случае не будет использовано?
-            var src = Enumerable.Empty<string>();
+            // !CR (krait): Зачем присваивать это значение, если оно в любом случае не будет использовано?
+            IEnumerable<string> src;
             if (DirectorySource != null) src = GetLines.FromFolder(DirectorySource, ExtensionFilter);
             else if (FileSource != null) src = GetLines.FromFile(FileSource);
             else src = GetLines.FromInputStream();

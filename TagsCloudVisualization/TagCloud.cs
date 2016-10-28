@@ -17,12 +17,12 @@ namespace TagsCloudVisualization
         private readonly int maxValue;
         private readonly int minValue;
 
-        // CR (krait): Почему AsMapping? Я не понял.
-        public static TagCloud AsMapping(ICircularCloudLayouter layouter, int minHeight, int maxHeight, int maxValue, int minValue)
+        // !CR (krait): Почему AsMapping? Я не понял.
+        public static TagCloud FromLimits(ICircularCloudLayouter layouter, int minHeight, int maxHeight, int maxValue, int minValue)
         {
-            // CR (krait): А если minValue > maxValue?
-            if (maxValue == minValue)
-                throw new ArgumentException($"{nameof(maxValue)} can`t be equal to {nameof(minValue)}");
+            // !CR (krait): А если minValue > maxValue?
+            if (maxValue <= minValue)
+                throw new ArgumentException($"{nameof(minValue)} shoul be greater than {nameof(maxValue)}");
             Func<int, int> valToHeight = v => (int) (1.0 * (v - minValue) / (maxValue - minValue) * (maxHeight - minHeight) + minHeight);
             var drawer = Graphics.FromImage(new Bitmap(1, 1));
             return new TagCloud(layouter, pair => drawer.MeasureString(pair.Key, new Font(FontFamily.GenericMonospace, valToHeight(pair.Value))).ToGeometrySize());
@@ -48,8 +48,8 @@ namespace TagsCloudVisualization
             rectangleToTag = new Dictionary<Rectangle, string>();
         }
 
-        // CR (krait): Жесть название, чёрт ногу сломит.
-        private static Size Value2HeightToValue2Size(int value, string tag, Func<int, int> valueToHeight, Size minCharSize)
+        // !CR (krait): Жесть название, чёрт ногу сломит.
+        private static Size GetSizeFromValue(int value, string tag, Func<int, int> valueToHeight, Size minCharSize)
         {
             var height = valueToHeight(value) + minCharSize.Height;
             var width = 1.0 * height * tag.Length / minCharSize.Height * minCharSize.Width + minCharSize.Width;
@@ -57,7 +57,7 @@ namespace TagsCloudVisualization
         }
 
         public TagCloud(ICircularCloudLayouter layouter, Size minCharSize, Func<int, int> valueToHeight) 
-            : this(layouter, pair => Value2HeightToValue2Size(pair.Value, pair.Key, valueToHeight, minCharSize))
+            : this(layouter, pair => GetSizeFromValue(pair.Value, pair.Key, valueToHeight, minCharSize))
         {
             this.layouter = layouter;
             if (minCharSize.Width == 0 || minCharSize.Height == 0)

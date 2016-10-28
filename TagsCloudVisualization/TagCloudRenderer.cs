@@ -31,16 +31,18 @@ namespace TagsCloudVisualization
         public Bitmap RenderToBitmap(TagCloud tags)
         {
             var size = (showRectangles ? tags.LayoutCoveringRectangle : tags.TagsCoveringRectangle).Size;
+            Bitmap bitmap = null;
             try
             {
-                var bitmap = new Bitmap(size.Width, size.Height);
+                bitmap = new Bitmap(size.Width, size.Height);
                 Render(Graphics.FromImage(bitmap), tags);
                 return bitmap;
             }
             catch (Exception)
             {
+                bitmap?.Dispose();
                 Console.WriteLine("Can not creaate bitmap. Too large :(");
-                System.Environment.Exit(1);
+                Environment.Exit(1);
             }
             return null;
         }

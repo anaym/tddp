@@ -8,10 +8,30 @@ using TagsCloudVisualization.Geometry;
 
 namespace TagsCloudVisualization
 {
+    class MyClass : IDisposable
+    {
+        public void Dispose()
+        {
+            Console.WriteLine("Dispose");
+        }
+    }
+
     class Program
     {
+        static MyClass Foo()
+        {
+            using (var c = new MyClass())
+            {
+                return c;
+            }
+        }
+
         static void Main(string[] args)
         {
+            var c = Foo();
+            Console.WriteLine("!");
+            var b = c;
+
             var commandLineParser = new FluentCommandLineParser<TagCloudTask>();
 
             commandLineParser
@@ -72,8 +92,10 @@ namespace TagsCloudVisualization
             var task = commandLineParser.Object;
             var data = task.CreateStatistic().ToDictionary(p => p.Key, p=> p.Value);
 
-            var layoter = new CircularCloudLayouter(Vector.Zero, new Vector(3, 2));
-            var tags = TagCloud.AsMapping(layoter, task.MinWordHeight, task.MaxWordWidth, data.Max(p => p.Value), data.Min(p => p.Value));
+            var layoter = new CircularCloudLayouter(Vector.Zero, new Vector(2, 2));
+            var max = data.Count != 0 ? data.Max(p => p.Value) : 1;
+            var min = data.Count != 0 ? data.Min(p => p.Value) : 0;
+            var tags = TagCloud.FromLimits(layoter, task.MinWordHeight, task.MaxWordWidth, max, min);
             var renderer = new TagCloudRenderer (task.RenderBackgroundRectangles);
             renderer.AddManyColors(Color.DarkBlue, Color.OrangeRed, Color.DarkGreen);
             tags.PutManyTags(data);
