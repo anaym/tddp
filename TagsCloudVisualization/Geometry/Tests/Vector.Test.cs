@@ -73,6 +73,8 @@ namespace TagsCloudVisualization.Geometry.Tests
             a.GetHashCode().Should().Be(b.GetHashCode());
         }
 
+        // CR (krait): Та же проблема, что и в Rectangle_Should.
+
         [Test]
         public void Equal_SimilarlyCreatedSegment()
         {

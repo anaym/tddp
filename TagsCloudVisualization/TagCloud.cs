@@ -16,12 +16,11 @@ namespace TagsCloudVisualization
         private readonly Func<KeyValuePair<string, int>, Size> valueToSize;
         private readonly int maxValue;
         private readonly int minValue;
-
-        // !CR (krait): Почему AsMapping? Я не понял.
+        
         public static TagCloud FromLimits(ICircularCloudLayouter layouter, int minHeight, int maxHeight, int maxValue, int minValue)
         {
-            // !CR (krait): А если minValue > maxValue?
             if (maxValue <= minValue)
+                // CR (krait): Правда что ли? :D
                 throw new ArgumentException($"{nameof(minValue)} shoul be greater than {nameof(maxValue)}");
             Func<int, int> valToHeight = v => (int) (1.0 * (v - minValue) / (maxValue - minValue) * (maxHeight - minHeight) + minHeight);
             var drawer = Graphics.FromImage(new Bitmap(1, 1));
@@ -47,8 +46,7 @@ namespace TagsCloudVisualization
                 throw new ArgumentNullException(nameof(layouter));
             rectangleToTag = new Dictionary<Rectangle, string>();
         }
-
-        // !CR (krait): Жесть название, чёрт ногу сломит.
+        
         private static Size GetSizeFromValue(int value, string tag, Func<int, int> valueToHeight, Size minCharSize)
         {
             var height = valueToHeight(value) + minCharSize.Height;

@@ -15,40 +15,45 @@ namespace TagsCloudVisualization.Statistic
             {
                 yield return line;
             }
+            // CR (krait): Зачем?
             yield break;
         }
 
         public static IEnumerable<string> FromFile(string fileName, string codeName = null)
         {
-            return File.ReadAllLines(fileName,codeName == null ? Encoding.Default : Encoding.GetEncoding(codeName));
+            return File.ReadAllLines(fileName, codeName == null ? Encoding.Default : Encoding.GetEncoding(codeName));
         }
 
-        public static IEnumerable<string> FromFolder(string pathToFolder, string avaibleExtension, string codeName = null)
+        public static IEnumerable<string> FromFolder(string pathToFolder, string availableExtension, string codeName = null)
         {
-            var now = new DirectoryInfo(pathToFolder);
-            var mustVisit = new Queue<DirectoryInfo>(new[] { now });
+            // CR (krait): 
+            // А не написать ли всё тело этой функции в одно выражение? Подсказка:
+            // Directory.GetDirectories(pathToFolder, "*." + availableExtension, SearchOption.AllDirectories)
+
+            var current = new DirectoryInfo(pathToFolder);
+            var toVisit = new Queue<DirectoryInfo>(new[] { current });
             var files = new HashSet<string>();
-            while (mustVisit.Count != 0)
+            while (toVisit.Count != 0)
             {
-                now = mustVisit.Dequeue();
+                current = toVisit.Dequeue();
                 try
                 {
-                    foreach (var folder in now.GetDirectories()) mustVisit.Enqueue(folder);
+                    foreach (var folder in current.GetDirectories()) toVisit.Enqueue(folder);
                 }
                 catch (Exception)
                 {
-                    Console.WriteLine($"Can not read directory: {now.FullName}");
+                    Console.WriteLine($"Can not read directory: {current.FullName}");
                 }
                 try
                 {
-                    foreach (var file in now.GetFiles().Where(f => f.Name.EndsWith(avaibleExtension)))
+                    foreach (var file in current.GetFiles().Where(f => f.Name.EndsWith(availableExtension)))
                     {
                         files.Add(file.FullName);
                     }
                 }
                 catch (Exception)
                 {
-                    Console.WriteLine($"Can not read directory: {now.FullName}");
+                    Console.WriteLine($"Can not read directory: {current.FullName}");
                 }
             }
             foreach (var file in files)

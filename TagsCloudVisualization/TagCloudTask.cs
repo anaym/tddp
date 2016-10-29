@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using TagsCloudVisualization.Statistic;
 
 namespace TagsCloudVisualization
@@ -20,7 +19,6 @@ namespace TagsCloudVisualization
 
         public IEnumerable<KeyValuePair<string, int>> CreateStatistic()
         {
-            // !CR (krait): Зачем присваивать это значение, если оно в любом случае не будет использовано?
             IEnumerable<string> src;
             if (DirectorySource != null) src = GetLines.FromFolder(DirectorySource, ExtensionFilter, Encoding);
             else if (FileSource != null) src = GetLines.FromFile(FileSource, Encoding);

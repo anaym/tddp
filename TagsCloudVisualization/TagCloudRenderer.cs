@@ -38,10 +38,11 @@ namespace TagsCloudVisualization
                 Render(Graphics.FromImage(bitmap), tags);
                 return bitmap;
             }
+            // CR (krait): Почему не просто catch, если эксепшн ты всё равно игнорируешь?
             catch (Exception)
             {
                 bitmap?.Dispose();
-                Console.WriteLine("Can not creaate bitmap. Too large :(");
+                Console.WriteLine("Can not create bitmap. Too large :(");
                 Environment.Exit(1);
             }
             return null;
