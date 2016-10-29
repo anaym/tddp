@@ -10,7 +10,29 @@ namespace TagsCloudVisualization
 {
     class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
+        {
+            var commandLineParser = PrepareCommandLineParser();
+
+            if (commandLineParser.Parse(args).HelpCalled)
+                return;
+
+            var task = commandLineParser.Object;
+            var data = task.CreateStatistic().ToDictionary(p => p.Key, p => p.Value);
+
+            var layoter = new CircularCloudLayouter(Vector.Zero, new Vector((int)(task.Ratio * 10), (int)(10 / task.Ratio)));
+            var max = data.Count != 0 ? data.Max(p => p.Value) : 1;
+            var min = data.Count != 0 ? data.Min(p => p.Value) : 0;
+            if (data.Count == 0) Console.WriteLine("Data is not founded");
+            var tags = TagCloud.FromLimits(layoter, task.MinWordHeight, task.MaxWordWidth, max, min);
+            var renderer = new TagCloudRenderer(task.RenderBackgroundRectangles);
+            renderer.AddManyColors(Color.DarkBlue, Color.OrangeRed, Color.DarkGreen);
+            tags.PutManyTags(data);
+            renderer.RenderToBitmap(tags).Save(task.OutFileName, ImageFormat.Png);
+            Process.Start(task.OutFileName);
+        }
+
+        private static FluentCommandLineParser<TagCloudTask> PrepareCommandLineParser()
         {
             var commandLineParser = new FluentCommandLineParser<TagCloudTask>();
 
@@ -66,7 +88,7 @@ namespace TagsCloudVisualization
                 .Setup(options => options.Count)
                 .As('c', "count")
                 .SetDefault(100)
-                .WithDescription("Maximum");
+                .WithDescription("Count of processing words");
 
             commandLineParser
                 .Setup(options => options.RenderBackgroundRectangles)
@@ -84,22 +106,7 @@ namespace TagsCloudVisualization
                 .SetupHelp("h", "help")
                 .Callback(text => Console.WriteLine(text));
 
-            if (commandLineParser.Parse(args).HelpCalled)
-                return;
-
-            var task = commandLineParser.Object;
-            var data = task.CreateStatistic().ToDictionary(p => p.Key, p=> p.Value);
-
-            var layoter = new CircularCloudLayouter(Vector.Zero, new Vector((int)(task.Ratio*10), (int)(10 /task.Ratio)));
-            var max = data.Count != 0 ? data.Max(p => p.Value) : 1;
-            var min = data.Count != 0 ? data.Min(p => p.Value) : 0;
-            if (data.Count == 0) Console.WriteLine("Data is not founded");
-            var tags = TagCloud.FromLimits(layoter, task.MinWordHeight, task.MaxWordWidth, max, min);
-            var renderer = new TagCloudRenderer (task.RenderBackgroundRectangles);
-            renderer.AddManyColors(Color.DarkBlue, Color.OrangeRed, Color.DarkGreen);
-            tags.PutManyTags(data);
-            renderer.RenderToBitmap(tags).Save(task.OutFileName, ImageFormat.Png);
-            Process.Start(task.OutFileName);
+            return commandLineParser;
         }
     }
 }

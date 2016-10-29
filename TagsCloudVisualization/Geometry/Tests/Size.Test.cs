@@ -36,10 +36,10 @@ namespace TagsCloudVisualization.Geometry.Tests
             a.GetHashCode().Should().Be(b.GetHashCode());
         }
 
-        // CR (krait): Та же проблема, что и в Rectangle_Should.
+        // !CR (krait): Та же проблема, что и в Rectangle_Should.
 
         [Test]
-        public void Equal_SimilarlyCreatedSegment()
+        public void Equal_AnotherCreatedFromSameArguments()
         {
             var a = new Size(new Random().Next(10), new Random().Next(10));
             var b = new Size(a.Width, a.Height);
@@ -47,7 +47,7 @@ namespace TagsCloudVisualization.Geometry.Tests
         }
 
         [Test]
-        public void NotEqual_NotSimilarlyCreatedSegment()
+        public void NotEqual_AnotherCreatedFromOtherArguments()
         {
             var a = new Size(new Random().Next(10), new Random().Next(10));
             var b = new Size(a.Width, a.Height + 100500);

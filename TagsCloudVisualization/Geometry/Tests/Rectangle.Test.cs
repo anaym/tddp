@@ -5,7 +5,7 @@ using TagsCloudVisualization.Geometry.Extensions;
 
 namespace TagsCloudVisualization.Geometry.Tests
 {
-    // CR (krait): Попортил несколько хороших имён, но в целом какой-то прогресс.
+    // !CR (krait): Попортил несколько хороших имён, но в целом какой-то прогресс.
     [TestFixture]
     public class Rectangle_Should
     {
@@ -45,7 +45,7 @@ namespace TagsCloudVisualization.Geometry.Tests
 
         #endregion
 
-        // CR (krait): Было лучше, но и так сойдёт.
+        // !CR (krait): Было лучше, но и так сойдёт.
         public void BeNonIntersected_With(int xA, int yA, int xB, int yB, bool includeContour, int scaleA = 1)
         {
             var size = new Size(100, 50);
@@ -56,8 +56,8 @@ namespace TagsCloudVisualization.Geometry.Tests
         
         [TestCase(-10, -20, false, TestName = "point inside rectangle and excluding border")]
         [TestCase(0, 0, true, TestName = "point in rectangle`s border")]
-        // CR (krait): Вот тут убери s обратно. Не забывай, что перед этим стоит ещё Rectangle_Should
-        public void ContainsPoint_When(int x, int y, bool includeBorder)
+        // !CR (krait): Вот тут убери s обратно. Не забывай, что перед этим стоит ещё Rectangle_Should
+        public void ContainPoint_When(int x, int y, bool includeBorder)
         {
             var self = new Rectangle(new Vector(0, 0), new Size(100, 125));
             self.Contains(new Vector(x, y), includeBorder).Should().BeTrue();
@@ -96,10 +96,10 @@ namespace TagsCloudVisualization.Geometry.Tests
             a.GetHashCode().Should().Be(b.GetHashCode());
         }
 
-        // CR (krait): Было более корректно, потому что similarly - это похожим образом, а на самом деле создаваться они должны абсолютно одинаково.
+        // !CR (krait): Было более корректно, потому что similarly - это похожим образом, а на самом деле создаваться они должны абсолютно одинаково.
 
         [Test]
-        public void Equal_SimilarlyCreatedSegment()
+        public void Equal_AnotherCreatedFromSameArguments()
         {
             var a = new Rectangle(new Random().Next(10), new Random().Next(10), new Random().Next(10), new Random().Next(10));
             var b = new Rectangle(a.RightTop, a.Size);
@@ -107,7 +107,7 @@ namespace TagsCloudVisualization.Geometry.Tests
         }
 
         [Test]
-        public void NotEqual_NotSimilarlyCreatedSegment()
+        public void NotEqual_AnotherCreatedFromOtherArguments()
         {
             var a = new Rectangle(new Random().Next(10), new Random().Next(10), new Random().Next(10), new Random().Next(10));
             var b = new Rectangle(a.RightTop, new Size(100500, 234));

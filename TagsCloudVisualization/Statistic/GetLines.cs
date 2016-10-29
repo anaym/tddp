@@ -15,8 +15,7 @@ namespace TagsCloudVisualization.Statistic
             {
                 yield return line;
             }
-            // CR (krait): Зачем?
-            yield break;
+            // !CR (krait): Зачем?
         }
 
         public static IEnumerable<string> FromFile(string fileName, string codeName = null)
@@ -40,7 +39,7 @@ namespace TagsCloudVisualization.Statistic
                 {
                     foreach (var folder in current.GetDirectories()) toVisit.Enqueue(folder);
                 }
-                catch (Exception)
+                catch
                 {
                     Console.WriteLine($"Can not read directory: {current.FullName}");
                 }
@@ -51,7 +50,7 @@ namespace TagsCloudVisualization.Statistic
                         files.Add(file.FullName);
                     }
                 }
-                catch (Exception)
+                catch
                 {
                     Console.WriteLine($"Can not read directory: {current.FullName}");
                 }
