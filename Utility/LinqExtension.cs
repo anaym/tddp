@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Utility
 {
@@ -19,6 +20,11 @@ namespace Utility
                 }
             }
             return data;
+        }
+
+        public static Dictionary<TK, TV> ToDictionary<TK, TV>(this IEnumerable<KeyValuePair<TK, TV>> seq)
+        {
+            return seq.ToDictionary(p => p.Key, p => p.Value);
         }
     }
 }
