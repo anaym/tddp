@@ -16,6 +16,7 @@ namespace Utility.Statistic
             if (task.XmlSource != null) return FromXml(File.OpenText(task.XmlSource));
             if (task.FileSource != null) src = GetLines.FromFile(task.FileSource, task.CodePage);
             else if (task.FolderSource != null) src = GetLines.FromFolder(task.FolderSource, task.AvaibleTypes, task.CodePage);
+            else src = GetLines.FromInputStream();
             var words = ExtractWords(src, task.OnlyLetters);
             var statistic = CreateStatistic(words, task.MinWordLength);
             return new Statistic(statistic, task.Count);
