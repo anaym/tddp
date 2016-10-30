@@ -2,7 +2,7 @@
 using FluentAssertions;
 using NUnit.Framework;
 
-namespace TagsCloudVisualization.Geometry.Tests
+namespace Utility.Geometry.Tests
 {
     [TestFixture]
     public class ParallelSegment_Should

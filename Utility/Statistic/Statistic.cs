@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Fclp.Internals.Extensions;
 
-namespace TagsCloudVisualization.Statistic
+namespace Utility.Statistic
 {
     public static class Statistic
     {
@@ -21,7 +20,7 @@ namespace TagsCloudVisualization.Statistic
             };
             var words = lines.SelectMany(l => l.Split(separators, StringSplitOptions.RemoveEmptyEntries));
             if (onlyLetters) words = words.Where(w => w.All(char.IsLetter));
-            return words.Where(w => !w.IsNullOrWhiteSpace());
+            return words.Where(w => !String.IsNullOrWhiteSpace(w));
         }
 
         public static IEnumerable<KeyValuePair<string, int>> CreateStatistic(this IEnumerable<string> words, int count, int minLength)

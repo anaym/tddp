@@ -6,8 +6,9 @@ using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
-using TagsCloudVisualization.Geometry;
-using TagsCloudVisualization.Geometry.Extensions;
+using Utility;
+using Utility.Geometry;
+using Utility.Geometry.Extensions;
 
 namespace TagsCloudVisualization.Tests
 {

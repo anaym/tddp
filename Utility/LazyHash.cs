@@ -1,4 +1,4 @@
-﻿namespace TagsCloudVisualization.Utility
+﻿namespace Utility
 {
     public static class LazyHash
     {

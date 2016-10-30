@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using TagsCloudVisualization.Geometry;
+using Utility.Geometry;
 
 namespace TagsCloudVisualization
 {

@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
-using TagsCloudVisualization.Geometry.Extensions;
+using Utility.Geometry.Extensions;
 
-namespace TagsCloudVisualization.Geometry.Tests
+namespace Utility.Geometry.Tests
 {
     [TestFixture]
     public class RectangleExtensions_CoveringRectangle_Should

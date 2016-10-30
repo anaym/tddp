@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace TagsCloudVisualization.Utility
+namespace Utility
 {
     public static class LinqExtension
     {

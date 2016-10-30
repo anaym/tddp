@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace TagsCloudVisualization.Statistic
+namespace Utility.Statistic
 {
     public static class GetLines
     {

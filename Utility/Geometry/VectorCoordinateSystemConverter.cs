@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace TagsCloudVisualization.Geometry
+namespace Utility.Geometry
 {
     public class VectorCoordinateSystemConverter
     {

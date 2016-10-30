@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Text;
 using System.Linq;
-using TagsCloudVisualization.Geometry;
-using TagsCloudVisualization.Geometry.Extensions;
+using Utility.Geometry;
+using Utility.Geometry.Extensions;
 
 namespace TagsCloudVisualization
 {

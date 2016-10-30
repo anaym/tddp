@@ -1,7 +1,6 @@
-﻿using TagsCloudVisualization.Geometry.Extensions;
-using TagsCloudVisualization.Utility;
+﻿using Utility.Geometry.Extensions;
 
-namespace TagsCloudVisualization.Geometry
+namespace Utility.Geometry
 {
     public struct Rectangle
     {

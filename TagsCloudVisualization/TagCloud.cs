@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using TagsCloudVisualization.Geometry;
-using TagsCloudVisualization.Geometry.Extensions;
-using Rectangle = TagsCloudVisualization.Geometry.Rectangle;
-using Size = TagsCloudVisualization.Geometry.Size;
+using Utility.Geometry.Extensions;
+using Rectangle = Utility.Geometry.Rectangle;
+using Size = Utility.Geometry.Size;
 
 namespace TagsCloudVisualization
 {

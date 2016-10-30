@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using TagsCloudVisualization.Geometry;
-using TagsCloudVisualization.Utility;
+using Utility;
+using Utility.Geometry;
 
 namespace TagsCloudVisualization
 {

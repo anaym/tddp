@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
+using Utility.Geometry;
 
-namespace TagsCloudVisualization.Geometry.Extensions
+namespace Utility.Geometry.Extensions
 {
     public static class Geometry2DrawCastExtension
     {

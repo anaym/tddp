@@ -1,7 +1,6 @@
 ﻿using System;
-using TagsCloudVisualization.Utility;
 
-namespace TagsCloudVisualization.Geometry
+namespace Utility.Geometry
 {
     public struct Vector : IEquatable<Vector>
     {

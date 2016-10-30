@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using TagsCloudVisualization.Statistic;
+using Utility.Statistic;
 
 namespace TagsCloudVisualization
 {

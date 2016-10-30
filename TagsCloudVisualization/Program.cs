@@ -4,7 +4,8 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
 using Fclp;
-using TagsCloudVisualization.Geometry;
+using Utility;
+using Utility.Geometry;
 
 namespace TagsCloudVisualization
 {

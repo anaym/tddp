@@ -3,7 +3,7 @@ using System.Drawing;
 using FluentAssertions;
 using NUnit.Framework;
 
-namespace TagsCloudVisualization.Geometry.Tests
+namespace Utility.Geometry.Tests
 {
     [TestFixture]
     public class VectorTransform_Should
