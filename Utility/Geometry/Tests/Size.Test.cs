@@ -19,7 +19,7 @@ namespace Utility.Geometry.Tests
         [Test]
         public void CalculateArea_Correctly()
         {
-            size.Area.Should().Be(size.Width*size.Height);
+            size.Area.Should().Be(size.Width * size.Height);
         }
 
         [Test]
@@ -35,9 +35,7 @@ namespace Utility.Geometry.Tests
             var b = new Size(a.Width, a.Height);
             a.GetHashCode().Should().Be(b.GetHashCode());
         }
-
-        // !CR (krait): Та же проблема, что и в Rectangle_Should.
-
+        
         [Test]
         public void Equal_AnotherCreatedFromSameArguments()
         {

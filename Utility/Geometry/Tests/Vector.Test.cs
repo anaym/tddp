@@ -72,9 +72,7 @@ namespace Utility.Geometry.Tests
             var b = new Vector(a.X, a.Y);
             a.GetHashCode().Should().Be(b.GetHashCode());
         }
-
-        // !CR (krait): Та же проблема, что и в Rectangle_Should.
-
+        
         [Test]
         public void Equal_AnotherCreatedFromSameArguments()
         {

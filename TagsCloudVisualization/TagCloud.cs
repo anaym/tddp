@@ -19,8 +19,7 @@ namespace TagsCloudVisualization
         public static TagCloud FromLimits(ICircularCloudLayouter layouter, int minHeight, int maxHeight, int maxValue, int minValue)
         {
             if (maxValue <= minValue)
-                // !CR (krait): Правда что ли? :D
-                throw new ArgumentException($"{nameof(maxValue)} shoul be greater than {nameof(minValue)}");
+                throw new ArgumentException($"{nameof(maxValue)} should be greater than {nameof(minValue)}");
             Func<int, int> valToHeight = v => (int) (1.0 * (v - minValue) / (maxValue - minValue) * (maxHeight - minHeight) + minHeight);
             var drawer = Graphics.FromImage(new Bitmap(1, 1));
             return new TagCloud(layouter, pair => drawer.MeasureString(pair.Key, new Font(FontFamily.GenericMonospace, valToHeight(pair.Value))).ToGeometrySize());

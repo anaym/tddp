@@ -24,8 +24,6 @@ namespace Utility.Geometry.Tests
             new ParallelSegment(leftA, rightA).IsIntersected(new ParallelSegment(leftB, rightB), includeBorder).Should().BeFalse();
         }
 
-        // !CR (krait): should contain, а не should contains
-
         [TestCase(0, 2, 1, true, TestName = "point inside")]
         [TestCase(0, 2, 1, false, TestName = "point inside and excluding borders")]
         [TestCase(0, 2, 0, true, TestName = "point in border")]
@@ -48,9 +46,7 @@ namespace Utility.Geometry.Tests
             var b = new ParallelSegment(a.Left, a.Right);
             a.GetHashCode().Should().Be(b.GetHashCode());
         }
-
-        // !CR (krait): Та же проблема, что и в Rectangle_Should.
-
+        
         [Test]
         public void Equal_AnotherCreatedFromSameArguments()
         {

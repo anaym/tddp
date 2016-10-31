@@ -38,7 +38,6 @@ namespace TagsCloudVisualization
                 Render(Graphics.FromImage(bitmap), tags);
                 return bitmap;
             }
-            // !CR (krait): Почему не просто catch, если эксепшн ты всё равно игнорируешь?
             catch
             {
                 bitmap?.Dispose();

@@ -12,7 +12,7 @@ namespace Utility.Statistic
     {
         public static Statistic FromTask(StatisticTask task)
         {
-            IEnumerable<string> src = null;
+            IEnumerable<string> src;
             if (task.XmlSource != null) return FromXml(File.OpenText(task.XmlSource));
             if (task.FileSource != null) src = GetLines.FromFile(task.FileSource, task.CodePage);
             else if (task.FolderSource != null) src = GetLines.FromFolder(task.FolderSource, task.AvaibleTypes, task.CodePage);

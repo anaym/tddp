@@ -15,7 +15,6 @@ namespace Utility.Statistic
             {
                 yield return line;
             }
-            // !CR (krait): Зачем?
         }
 
         public static IEnumerable<string> FromFile(string fileName, string codeName = null)
@@ -25,10 +24,6 @@ namespace Utility.Statistic
 
         public static IEnumerable<string> FromFolder(string pathToFolder, string availableExtension, string codeName = null)
         {
-            // CR (krait): 
-            // А не написать ли всё тело этой функции в одно выражение? Подсказка:
-            // Directory.GetDirectories(pathToFolder, "*." + availableExtension, SearchOption.AllDirectories)
-
             var current = new DirectoryInfo(pathToFolder);
             var toVisit = new Queue<DirectoryInfo>(new[] { current });
             var files = new HashSet<string>();
